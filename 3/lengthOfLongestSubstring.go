@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -29,5 +28,4 @@ func lengthOfLongestSubstring(s string) int {
 
 func main() {
 	log.Println(lengthOfLongestSubstring("dddddddddddddddd888888888888d"))
-	fmt.Println("vim-go")
 }

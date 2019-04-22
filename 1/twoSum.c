@@ -77,13 +77,10 @@ void hash_table_free(hash_table_t* hash_table)
       node_t* hold = curr;
       curr->next = curr;
       free(hold);
-
     }   
-
   }
   free(hash_table->hashtab);
   free(hash_table);
-
 }
 
 int* twoSum2(int* nums, int numsSize, int target)
