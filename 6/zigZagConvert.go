@@ -49,6 +49,15 @@ func convert(s string, numRows int) string {
 	}
 	return string(res)
 }
+
+/*
+	LEETCODEISHIRING
+	L      D      R   idx = i + 2 * numRows -2
+	E    O E    I I	  i + 2 * numRows -2 -2 * row , 2 * row
+	E  C   I  H   N
+	T      S      G   indx = i + 2 * row -2
+
+*/
 func main() {
 	fmt.Println(convert("PAYPALISHIRING", 4))
 	fmt.Println(convert2("PAYPALISHIRING", 4))

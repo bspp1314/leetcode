@@ -38,6 +38,7 @@ func expendAroundCenter(s string, begin int, end int) int {
 	}
 	return end - begin - 1
 }
+
 func longestPalindrome(s string) string {
 	begin := 0
 	end := 0

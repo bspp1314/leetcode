@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func findKthSmallest(num1 []int, num2 []int, k int) float64 {
@@ -82,6 +83,69 @@ func findMedianSortedArrays(num1 []int, num2 []int) float64 {
 		return (v1 + v2) / 2.0
 	}
 
+}
+func findMedianSortedArrays3(num1 []int, num2 []int) float64 {
+	len1 := len(nums1)
+	len2 := len(nums2)
+	if len1 > len2 {
+		return findMedianSortedArrays3(num2, num1)
+	}
+
+	low := 0
+	high := len1
+	for low < high {
+		/*              median
+		|0 ....... i-1| i  ......m
+		|0 ....... j-1 | j .......n
+		根据中位数的定义我们可以知道
+			i + j = (m + n +1 ) / 2
+		*/
+		//二分法
+		i := low + (high-low)/2
+		j := (m+n+1)/2 - i
+		var maxLeftA int
+		var minRightA int
+
+		var maxLeftB int
+		var minRightB int
+
+		if i == 0 {
+			maxLeftA = math.MaxInt32
+		} else {
+			maxLeftA = nums1[i-1]
+		}
+
+		if i == m {
+			minRightA = math.MaxInt32
+		} else {
+			minRightA = nums[i]
+		}
+
+		if j == 0 {
+			maxLeftB = math.MaxInt32
+		} else {
+			maxLeftB = nums1[j-1]
+		}
+
+		if j == m {
+			minRightB = math.MaxInt32
+		} else {
+			minRightB = nums[j]
+		}
+
+		if maxLeftA <= minRightB && maxLeftB <= minRightA {
+			if (m+n)%2 == 0 {
+				return (float64(math.Max(maxLeftA, maxLeftB) + math.Min(minRightA, minRightB))) / 2
+			} else {
+				return float64(math.MaxInt32(maxLeftA, maxLeftB))
+			}
+		} else if maxLeftA > minRightA {
+			low = i - 1
+		} else {
+			high = i + 1
+		}
+	}
+	return 0.0
 }
 func main() {
 	num1 := []int{1}
