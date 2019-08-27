@@ -17,6 +17,7 @@ func binarySearch(array []int, key int) int {
 	}
 	return -1
 }
+
 func binarySearch2(array []int, left int, right int, key int) int {
 	if left > right {
 		return -1
