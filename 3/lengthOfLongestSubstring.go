@@ -4,26 +4,27 @@ import (
 	"log"
 )
 
+//左右指针滑动窗口
 func lengthOfLongestSubstring(s string) int {
-	size := len(s)
-	max_len := 0
-	begin := 0
-	end := 0
+	sLen := len(s)
+	l := 0
+	right := 0
+	left := 0
+	//保存某一字符最新出现的位置
 	array := make([]int, 256)
 
-	for i := 0; i < size; i++ {
-		end = i
-		//出现重复数据
-		if array[s[i]] > begin {
-			begin = array[s[i]]
+	for right < sLen {
+		//出现重复字符，左指针移动
+		if array[s[right]] > left {
+			left = array[s[right]]
 		}
-
-		if max_len < (end - begin + 1) {
-			max_len = end - begin + 1
+		if l < right-left+1 {
+			l = right - left + 1
 		}
-		array[s[i]] = i + 1
+		array[s[right]] = right + 1
+		right++
 	}
-	return max_len
+	return l
 }
 
 func main() {
