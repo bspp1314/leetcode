@@ -2,38 +2,38 @@ package main
 
 import "fmt"
 
-//func minPathSum(grid [][]int) int {
-//	m := len(grid)
-//	if m == 0 {
-//		return 0
-//	}
-//	n := len(grid[0])
-//	if n == 0 {
-//		return 0
-//	}
-//	dp := make([][]int, m+1)
-//	for i := 0; i <= m; i++ {
-//		dp[i] = make([]int, n+1)
-//	}
-//	for i := 1; i <= m; i++ {
-//		for j := 1; j <= n; j++ {
-//			if i == 1 {
-//				dp[i][j] = dp[i][j-1]
-//			} else if j == 1 {
-//				dp[i][j] = dp[i-1][j]
-//			} else {
-//				if dp[i-1][j] < dp[i][j-1] {
-//					dp[i][j] = dp[i-1][j]
-//				} else {
-//					dp[i][j] = dp[i][j-1]
-//				}
-//			}
-//			dp[i][j] += grid[i-1][j-1]
-//		}
-//	}
-//	return dp[m][n]
-//}
-func minPathSum(grid [][]int) int {
+func minPathSum1(grid [][]int) int {
+	m := len(grid)
+	if m == 0 {
+		return 0
+	}
+	n := len(grid[0])
+	if n == 0 {
+		return 0
+	}
+	dp := make([][]int, m+1)
+	for i := 0; i <= m; i++ {
+		dp[i] = make([]int, n+1)
+	}
+	for i := 1; i <= m; i++ {
+		for j := 1; j <= n; j++ {
+			if i == 1 {
+				dp[i][j] = dp[i][j-1]
+			} else if j == 1 {
+				dp[i][j] = dp[i-1][j]
+			} else {
+				if dp[i-1][j] < dp[i][j-1] {
+					dp[i][j] = dp[i-1][j]
+				} else {
+					dp[i][j] = dp[i][j-1]
+				}
+			}
+			dp[i][j] += grid[i-1][j-1]
+		}
+	}
+	return dp[m][n]
+}
+func minPathSum2(grid [][]int) int {
 	m := len(grid)
 	if m == 0 {
 		return 0
