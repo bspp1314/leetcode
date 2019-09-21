@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func romanToInt(s string) int {
 	romanMap := map[byte]int{
@@ -28,7 +30,6 @@ func romanToInt(s string) int {
 	return res
 }
 func main() {
-
 	fmt.Println(romanToInt("MMM"))
 	fmt.Println(romanToInt("MMMIX"))
 	fmt.Println(romanToInt("MMMXCIX"))
