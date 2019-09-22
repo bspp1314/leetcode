@@ -2,7 +2,6 @@ package main
 
 import (
 	"container/list"
-	"fmt"
 )
 
 type TreeNode struct {
@@ -33,9 +32,12 @@ func (s *Stack) Len() int {
 }
 
 func preorderTraversal(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+
 	res := make([]int, 0)
 	stack := NewStack()
-	s := list.New()
 	current := root
 
 	stack.Push(current)
@@ -52,36 +54,19 @@ func preorderTraversal(root *TreeNode) []int {
 	return res
 
 }
-func postorderTraversla(root *TreeNode) []int {
-	res := make([]int, 0)
-	stack := NewStack()
-	current := root
 
-	for stack.Len() != 0 {
-		stack.Push(current)
-		res = append([]int{current.Val}, res...)
-		if current.Right != nil {
-			stack.Push(current.Right)
-		}
-		if current.Left != nil {
-			stack.Push(current.Left)
-		}
-
+//递归法
+func preorderTraversal2(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
 	}
-	return res
+
+	left := preorderTraversal2(root.Left)
+	right := preorderTraversal2(root.Right)
+	left = append(left, right...)
+	left = append(left, root.Val)
+	return left
 }
 func main() {
-	root := &TreeNode{
-		Val: 10,
-		Left: &TreeNode{
-			Val:   2,
-			Left:  nil,
-			Right: nil,
-		},
-		Right: &TreeNode{
-			Val: 3,
-		},
-	}
-	fmt.Println(preorderTraversal(root))
 	return
 }

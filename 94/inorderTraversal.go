@@ -2,9 +2,9 @@ package main
 
 import (
 	"container/list"
-	"fmt"
 )
 
+//二叉树的中序遍历
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -68,21 +68,5 @@ func inorderTraversal(root *TreeNode) []int {
 	return res
 }
 func main() {
-	s := NewStack()
-	s.Push(10)
-	v1 := s.Pop().(int)
-	fmt.Println(v1)
-	//root := &TreeNode{
-	//	Val: 10,
-	//	Left: &TreeNode{
-	//		Val:   2,
-	//		Left:  nil,
-	//		Right: nil,
-	//	},
-	//	Right: &TreeNode{
-	//		Val: 3,
-	//	},
-	//}
-	//fmt.Println(inorderTraversal2(root))
 	return
 }
