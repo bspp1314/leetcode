@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func combinationSum(candidates []int, target int, tagetLen int) [][]int {
+func combinationSum2(candidates []int, target int, tagetLen int) [][]int {
 	l := len(candidates)
 
 	res := make([][]int, 0)
@@ -15,13 +15,12 @@ func combinationSum(candidates []int, target int, tagetLen int) [][]int {
 
 	subList := make([]int, 0)
 	sort.Sort(sort.IntSlice(candidates))
-	fmt.Println(candidates)
 
-	dfs(&res, subList, candidates, target, 0, tagetLen)
+	dfs2(&res, subList, candidates, target, 0, tagetLen)
 	return res
 }
 
-func dfs(res *[][]int, subList []int, candidates []int, target int, left int, tagetLen int) {
+func dfs2(res *[][]int, subList []int, candidates []int, target int, left int, tagetLen int) {
 	if target == 0 {
 		if len(subList) == tagetLen {
 			tmp := make([]int, len(subList))
@@ -40,7 +39,7 @@ func dfs(res *[][]int, subList []int, candidates []int, target int, left int, ta
 			continue
 		}
 
-		dfs(res, append(subList, candidates[i]), candidates, target-candidates[i], i+1, tagetLen)
+		dfs2(res, append(subList, candidates[i]), candidates, target-candidates[i], i+1, tagetLen)
 	}
 }
 
