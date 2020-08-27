@@ -40,8 +40,14 @@ func fourSum(nums []int, target int) [][]int {
 					left++
 					right--
 				}else if sum > 0 {
+					for left < right && nums[right] == nums[right-1] { // 去重
+						right--
+					}
 					right--
 				}else{
+					for left < right && nums[left] == nums[left+1] { // 去重
+						left++
+					}
 					left ++
 				}
 			}
