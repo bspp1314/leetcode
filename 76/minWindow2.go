@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+
 func minWindow(s string, t string) string {
 	tLen := len(t)
 	sLen := len(s)
@@ -20,19 +21,22 @@ func minWindow(s string, t string) string {
 		}
 		tMap[t[i]]++
 	}
-	l := 0
+
 	var res string
 	windowCounts := make([]int, 256)
 	for right < sLen {
 		windowCounts[s[right]]++
-		if v := windowCounts[s[right]]; v == tMap[s[right]] {
+		v := windowCounts[s[right]]
+		if v == tMap[s[right]] {
 			formed++
 		}
-		for formed == cn {
-			if l == 0 || l > right-left+1 {
+
+		if formed == cn {
+			newLen := right - left + 1
+			if newLen > len(res) {
 				res = s[left : right+1]
-				l = right - left + 1
 			}
+
 			if tMap[s[left]] > 0 {
 				if tMap[s[left]] == windowCounts[s[left]] {
 					formed--
@@ -41,6 +45,7 @@ func minWindow(s string, t string) string {
 			}
 			left++
 		}
+
 		right++
 	}
 	return res
