@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 //Hash
 func twoSum(nums []int, target int) []int {
 	l := len(nums)
@@ -42,10 +40,34 @@ func twoSum2(nums []int, target int) []int {
 	return result
 }
 
+func twoSum3(numbers []int, target int) []int {
+	if len(numbers) <= 1 {
+		return []int{}
+	}
+
+
+	left := 0
+	right := len(numbers) -1
+	for left < right {
+		sum := numbers[left] + numbers[right]
+		if sum == target {
+			return []int{left+1,right+1}
+		}else if sum > target{
+			for left < right && numbers[right] == numbers[right-1] {
+				right--
+			}
+			right--
+		}else{
+			for left < right && numbers[left] == numbers[left+1] {
+				left++
+			}
+			left++
+		}
+	}
+
+	return []int{}
+}
+
 func main() {
-	var q float64
-	fmt.Printf("%0.0f\n", q)
-	nums := []int{1, 2, 3, 4, 5, 6}
-	fmt.Println(twoSum(nums, 11))
-	fmt.Println(twoSum2(nums, 11))
+
 }
