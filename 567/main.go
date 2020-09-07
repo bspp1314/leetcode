@@ -6,7 +6,7 @@ func checkInclusion(s1 string, s2 string) bool {
 	cMap := [26]int{}
 
 	for i := 0; i < len(s1); i++ {
-		cMap[s1[i] - 'a']++
+		cMap[s1[i]-'a']++
 	}
 
 	right := 0
@@ -14,14 +14,14 @@ func checkInclusion(s1 string, s2 string) bool {
 
 	for right < len(s2) {
 		//已存在
-		if cMap[s2[right] - 'a'] <= 0 {
+		if cMap[s2[right]-'a'] <= 0 {
 			for s2[left] != s2[right] {
-				cMap[s2[left] - 'a']++
+				cMap[s2[left]-'a']++
 				left++
 			}
 			left++
-		}else{
-			cMap[s2[right] - 'a'] --
+		} else {
+			cMap[s2[right]-'a']--
 		}
 
 		if (right - left + 1) == len(s1) {
