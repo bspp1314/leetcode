@@ -1,151 +1,65 @@
 package main
 
-import (
-	"container/list"
-	"fmt"
-)
+import "fmt"
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
 }
-
-type Stack struct {
-	list *list.List
-}
-
-func NewStack() *Stack {
-	return &Stack{list.New()}
-}
-func (s *Stack) Push(v interface{}) {
-	s.list.PushBack(v)
-}
-func (s *Stack) Pop() interface{} {
-	e := s.list.Back()
-	if e != nil {
-		s.list.Remove(e)
-		return e.Value
+func generateTrees(n int) []*TreeNode {
+	if n == 0 {
+		return nil
 	}
-	return nil
-}
-func (s *Stack) Len() int {
-	return s.list.Len()
+	nMap := make(map[[2]int][]*TreeNode)
+	return helper(1, n,nMap)
 }
 
-
-func inorderTraversal(root *TreeNode) []int {
-	// get right
-	if root == nil {
-		return []int{}
+func helper(start, end int,nMap map[[2]int][]*TreeNode) []*TreeNode {
+	if start > end {
+		trees := []*TreeNode{nil}
+		nMap[[2]int{start,end}] = trees
+		return trees
 	}
-	stack := make([]*TreeNode, 0)
-	res := make([]int, 0)
-	for root != nil {
-		if root.Left != nil  {
-			stack = append(stack,root)
-			root = root.Left
+	allTrees := []*TreeNode{}
+	// 枚举可行根节点
+	for i := start; i <= end; i++ {
+		// 获得所有可行的左子树集合
+		leftTrees  := []*TreeNode{}
+		rightTrees := []*TreeNode{}
+
+
+		if v,ok := nMap[[2]int{start,i-1}];ok {
+			leftTrees = v
 		}else{
-			// stack 5 3 2
-			res = append(res,root.Val)
-			if root.Right != nil {
-				root = root.Right
-			}else{
-				for {
-					if len(stack) == 0 {
-						return res
-					}else{
-						topNode := stack[len(stack)-1]
-						if len(stack) == 1 {
-							stack = make([]*TreeNode, 0)
-						}else{
-							stack = stack[:len(stack)-1]
-						}
-						res = append(res,topNode.Val)
-						if topNode.Right != nil {
-							root = topNode.Right
-							break
-						}
-					}
-				}
+			leftTrees = helper(start, i - 1,nMap)
+		}
+
+		if v,ok := nMap[[2]int{i+1,end}];ok {
+			rightTrees = v
+		}else{
+			rightTrees = helper(i+1,end,nMap)
+		}
+
+		// 从左子树集合中选出一棵左子树，从右子树集合中选出一棵右子树，拼接到根节点上
+		for _, left := range leftTrees {
+			for _, right := range rightTrees {
+				currTree := &TreeNode{i, nil, nil}
+				currTree.Left = left
+				currTree.Right = right
+				allTrees = append(allTrees, currTree)
 			}
 		}
 	}
-
-	return res
-}
-
-func inorderTraversal2(root *TreeNode) []int {
-	// get right
-	if root == nil {
-		return []int{}
-	}
-	stack := NewStack()
-	res := make([]int, 0)
-	for root != nil {
-		if root.Left != nil  {
-			stack.Push(root)
-			root = root.Left
-		}else{
-			// stack 5 3 2
-			res = append(res,root.Val)
-			if root.Right != nil {
-				root = root.Right
-			}else{
-				for {
-					if stack.Len() == 0 {
-						return res
-					}else{
-						topNode := stack.Pop().(*TreeNode)
-						res = append(res,topNode.Val)
-						if topNode.Right != nil {
-							root = topNode.Right
-							break
-						}
-					}
-				}
-			}
-		}
-	}
-
-	return res
+	nMap[[2]int{start,end}] =allTrees
+	return allTrees
 }
 //   1
 //
 func main() {
-	a := []int{1,2,3,4}
-	a = a[:len(a)-1]
-	fmt.Println(a)
-	fmt.Println()
-	root := &TreeNode{
-		Val: 1,
-		Right: &TreeNode{
-			Val: 2,
-			Right: &TreeNode{
-				Val: 4,
-				Left: &TreeNode{
-					Val: 7,
-				},
-			},
-			Left: &TreeNode{
-				Val: 3,
-				Right: &TreeNode{
-					Val: 6,
-				},
-				Left: &TreeNode{
-					Val: 5,
-					Left: &TreeNode{
-						Val: 9,
-						Left: nil,
-						Right: nil,
-					},
-				},
-			},
-		},
-	}
-
-	out := inorderTraversal(root)
-	fmt.Println(out)
-	out2 := inorderTraversal2(root)
-	fmt.Println(out2)
+	nMap := make(map[[2]int]int)
+	a := [2]int{}
+	nMap[a] = 3
+	b := [2]int{}
+	fmt.Println(nMap[b])
 }
