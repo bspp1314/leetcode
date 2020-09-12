@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type TreeNode struct {
 	Val   int
@@ -10,29 +8,32 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-
-func levelOrder(root *TreeNode) [][]int {
-	res := make([][]int, 0)
-	levelOrderHelp(root, 1, &res)
-	return res
-}
-
-func levelOrderHelp(root *TreeNode, level int, res *[][]int) {
+func zigzagLevelOrderHelp(root *TreeNode, level int, res *[][]int) {
 	if root == nil {
 		return
 	}
 
 	if len(*res) < level {
-		*res = append(*res, []int{root.Val})
+			*res = append(*res, []int{root.Val})
 	} else {
-		(*res)[level-1] = append((*res)[level-1], root.Val)
+		if level % 2 == 1 {
+			(*res)[level-1] = append((*res)[level-1], root.Val)
+		}else{
+			(*res)[level-1] = append([]int{root.Val},(*res)[level-1]...)
+		}
 	}
 
-	levelOrderHelp(root.Left, level+1, res)
-	levelOrderHelp(root.Right, level+1, res)
+	zigzagLevelOrderHelp(root.Left, level+1, res)
+	zigzagLevelOrderHelp(root.Right, level+1, res)
 }
 
-func levelOrder2(root *TreeNode)[][]int  {
+func zigzagLevelOrder(root *TreeNode) [][]int {
+	res := make([][]int, 0)
+	zigzagLevelOrderHelp(root, 1, &res)
+	return res
+}
+
+func zigzagLevelOrder2(root *TreeNode)[][]int  {
 	var res [][]int
 	if root == nil {
 		return res
@@ -44,8 +45,11 @@ func levelOrder2(root *TreeNode)[][]int  {
 		var nextLevel []*TreeNode
 		for i:=0;i<len(currentLevel);i++ {
 			node := currentLevel[i]
-			res[level] = append(res[level],node.Val)
-
+			if level % 2 == 0 {
+				res[level] = append(res[level],node.Val)
+			}else{
+				res[level] = append([]int{node.Val},res[level]...)
+			}
 			if node.Left != nil {
 				nextLevel = append(nextLevel,node.Left)
 			}
@@ -64,6 +68,7 @@ func levelOrder2(root *TreeNode)[][]int  {
 
 	return res
 }
+
 
 func main() {
 	tree := &TreeNode{
@@ -87,6 +92,8 @@ func main() {
 			Right: nil,
 		},
 	}
-	fmt.Println(levelOrder(tree))
-	return
+
+	fmt.Println(zigzagLevelOrder(tree))
+	fmt.Println(zigzagLevelOrder2(tree))
+	fmt.Println(zigzagLevelOrder2(nil))
 }
