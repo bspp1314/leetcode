@@ -2,43 +2,34 @@ package main
 
 import "fmt"
 
-//[
-//[3],
-//[1],
-//[2],
-//[1,2,3],
-//[1,3],
-//[2,3],
-//[1,2],
-//[]
-//]
-
-/// 0 1
-//  1 2
-//  2 4
-//  3 8
-func subsets(nums []int) [][]int {
-	if len(nums) == 0 {
-		return [][]int{[]int{}}
-	}
-
-	subRes := subsets(nums[1:])
-	res := make([][]int,1 << len(nums))
-
-	j:= 0
-	for i:= 0;i<len(subRes);i++ {
-		res[j] = subRes[i]
-		dest := make([]int,len(subRes[i]))
-		copy(dest,subRes[i])
-		res[j+1] = append(dest,nums[0])
-		j = j + 2
-	}
-
-
+func combine(n int, k int) [][]int {
+	var res [][]int
+	dfs(&res,0,n,k,make([]int,0))
 	return res
 }
 
+func dfs(res *[][]int,left int,n int,k int,q []int) {
+	if k > (n-left) {
+		return
+	}
+
+	if k == 1 {
+		for i := left;i < n;i++ {
+			tem := make([]int,len(q)+1)
+			copy(tem,q)
+			tem[len(tem)-1] = i+1
+			*res = append(*res,tem)
+		}
+
+		return
+	}
+
+	for i:=left;i<n;i++{
+		dfs(res,i+1,n,k-1,append(q,i+1))
+	}
+}
+
 func main() {
-	res := subsets([]int{1,2,3,4,5})
+	res := combine(4,2)
 	fmt.Println(res)
 }
