@@ -68,6 +68,44 @@ func flatten2(root *TreeNode) {
 	}
 }
 
+func flatten3(root *TreeNode)  {
+	if root == nil {
+		return
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return
+	}
+
+	if root.Left == nil {
+		flatten(root.Right)
+		return
+	}
+
+	if root.Right == nil {
+		root.Right = root.Left
+		root.Left = nil
+		flatten(root.Right)
+		return
+	}
+
+	flatten(root.Left)
+	flatten(root.Right)
+
+	leftR := root.Left
+
+	for leftR.Right != nil {
+		leftR = leftR.Right
+	}
+
+	right := root.Right
+	leftR.Right = right
+	root.Right = root.Left
+	root.Left = nil
+
+	return
+}
+
 func PrintValue(root *TreeNode) {
 	if root == nil {
 		return
