@@ -65,7 +65,7 @@ func maxProduct(nums []int) int {
 
 func main() {
 	o := maxProduct([]int{-2,3,-4})
-	o2 := maxProduct2([]int{-2,3,-4})
+	o2 := maxProduct([]int{-2,3,-4})
 	fmt.Println(o)
 	fmt.Println(o2)
 }
