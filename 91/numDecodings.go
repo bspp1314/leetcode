@@ -155,50 +155,6 @@ func numDecodings3(s string) int {
 	return dp[len(s)]
 }
 
-func minimumTotal(triangle [][]int) int {
-	if len(triangle) == 0 {
-		return 0
-	}
-
-	if len(triangle) == 1 {
-		return triangle[0][0]
-	}
-
-	res := triangle[0][0]
-	for i := 1;i < len(triangle);i++ {
-		var min int
-		min = 1<<63 - 1
-
-
-		for j:=0;j < len(triangle[i]);j++ {
-			if j == 0 {
-				triangle[i][j] += triangle[i-1][j]
-			}else if j == len(triangle[i])-1 {
-				triangle[i][j] += triangle[i-1][j-1]
-			}else{
-				v1 := triangle[i-1][j-1]
-				v2 := triangle[i-1][j]
-				if v1 < v2 {
-					triangle[i][j] += v1
-				}else{
-					triangle[i][j] += v2
-				}
-			}
-
-			if triangle[i][j] < min {
-				min = triangle[i][j]
-			}
-
-		}
-		if i == len(triangle) - 1 {
-			res = min
-
-		}
-	}
-
-	return res
-
-}
 
 func main() {
 	fmt.Println(numDecodings3("20"))
