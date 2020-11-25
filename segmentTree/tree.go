@@ -1,6 +1,9 @@
-package segmentTree
+package main
 
-import "errors"
+import (
+	"errors"
+	"log"
+)
 
 // TODO: 基于数组实现的线段树
 type SegmentTree struct {
@@ -18,7 +21,7 @@ func NewSegmentTree(arrs []int, merger func(i1, i2 int) int) *SegmentTree {
 	length := len(arrs)
 
 	tree := &SegmentTree{
-		Tree:   make([]int, length*4),
+		Tree:   make([]int, length*2),
 		Data:   arrs,
 		merger: merger,
 	}
@@ -29,6 +32,9 @@ func NewSegmentTree(arrs []int, merger func(i1, i2 int) int) *SegmentTree {
 
 // 在tree的index位置创建 arrs [ l 到 r ]  的线段树
 func (tree *SegmentTree) bulidSegmentTree(index, l, r int) int {
+	log.Println("left is ",l)
+	log.Println("right is ",r)
+	log.Println("index is ",index)
 	// 递归终止条件
 	if l == r {
 		tree.Tree[index] = tree.Data[l]
@@ -107,28 +113,17 @@ func (tree *SegmentTree) set(treeIndex, l, r, k, v int) {
 	tree.Tree[treeIndex] = tree.merger(tree.Tree[leftI], tree.Tree[rightI])
 }
 
-type NumArray struct {
-	Tree *SegmentTree
-}
+func main() {
 
-func Constructor(nums []int) NumArray {
-	merger := func(a, b int) int {
-		return a + b
-	}
-	return NumArray{
-		Tree: NewSegmentTree(nums, merger),
-	}
-}
+	max := func(a,b int) int {
+		if a > b {
+			return a
+		}
 
-func (this *NumArray) SumRange(i int, j int) int {
-	v,err := this.Tree.Query(i, j)
-	if err != nil {
-		return 0
+		return b
 	}
 
-	return v
+		arr := make([]int,6)
+		NewSegmentTree(arr,max)
 }
 
-func (this *NumArray) Update(i int, val int) {
-	this.Tree.Update(i, val)
-}

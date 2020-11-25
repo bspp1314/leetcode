@@ -2,21 +2,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
-func isNStraightHand(hand []int, W int) bool {
-	handLen := len(handLen)
-	if handLen%W != 0 {
-		return false
-	}
-	if W == 1 {
-		return true
-	}
-	group := handLen / W
-	sort.Ints(s)
-
-}
 func isStraihtHand(hand []int, begin int, W int) b {
 	end := make([]int, W)
 	j := 0
