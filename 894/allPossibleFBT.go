@@ -40,6 +40,8 @@ func allPossibleFBT(N int) []*TreeNode {
 	}
 	return res
 }
+
+
 func main() {
 	allPossibleFBT(19)
 	fmt.Println("vim-go")
