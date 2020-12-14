@@ -2,26 +2,6 @@ package main
 
 import "fmt"
 
-func numIslands2(grid [][]byte) int {
-	if len(grid) == 0 || len(grid[0]) == 0 {
-		return 0
-	}
-
-	res := 0
-	stack := [][2]int{}
-	for i := 0; i < len(grid); i++ {
-		for j:=0;j<len(grid[i]);j++ {
-			if grid[i][j] == '0' {
-				continue
-			}
-
-
-		}
-	}
-
-	return res
-}
-
 
 
 func numIslands(grid [][]byte) int {
