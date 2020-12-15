@@ -2,7 +2,6 @@ package main
 
 
 
-// 深度优先遍历
 func findCircleNum(M [][]int) int {
 	visited := make([]bool,len(M))
 
