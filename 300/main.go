@@ -3,32 +3,33 @@ package main
 import "fmt"
 
 func main() {
-	out := lengthOfLIS2([]int{0,8,4,12,2})
+	out := lengthOfLIS2([]int{0,4,8,2,4,5 })
 	fmt.Println(out)
 }
-
 
 func lengthOfLIS2(nums []int) int {
 	if len(nums) <= 1 {
 		return len(nums)
 	}
 
-	smallestTails := []int{nums[0]}
+
+
+	tails := []int{nums[0]}
 	index := 0
 
 	for i := 1; i < len(nums); i++ {
-		if nums[i] > smallestTails[index] {
-			smallestTails = append(smallestTails,nums[i])
+		if nums[i] > tails[index] {
+			tails = append(tails,nums[i])
 			index++
 		}else{
 			left := 0
-			right := len(smallestTails) -1
+			right := len(tails) -1
 			mid := left + (right-left)/2
 
 			for left < right {
-				if nums[i] > smallestTails[mid] {
+				if nums[i] > tails[mid] {
 					left = mid+1
-				} else if nums[i] < smallestTails[mid] {
+				} else if nums[i] < tails[mid] {
 					right = mid
 				} else {
 					right=mid
@@ -37,13 +38,13 @@ func lengthOfLIS2(nums []int) int {
 				mid = (left + right) / 2
 			}
 
-			smallestTails[right] = nums[i]
+			tails[right] = nums[i]
 		}
 
-		fmt.Println(smallestTails)
+		fmt.Println(tails)
 	}
 
-	return len(smallestTails)
+	return len(tails)
 }
 
 func lengthOfLIS(nums []int) int {
