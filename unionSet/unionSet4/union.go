@@ -14,7 +14,7 @@ func NewUnionSet(size int) *unionSet {
 	}
 	for i := 0; i < size; i++ {
 		u.rank[i] = 1
-		u.set[i] = 1
+		u.set[i] = i
 	}
 
 	return u

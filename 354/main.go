@@ -1,8 +1,9 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"sort"
+	"sync"
 )
 
 type Envelopes [][]int
@@ -63,6 +64,30 @@ func maxEnvelopes(envelopes [][]int) int {
 
 
 func main() {
-	out := maxEnvelopes([][]int{[]int{30, 50}, []int{12, 2}, []int{3, 4}, []int{12, 15}})
-	log.Println(out)
+	//out := maxEnvelopes([][]int{[]int{30, 50}, []int{12, 2}, []int{3, 4}, []int{12, 15}})
+	//log.Println(out)
+
+
+	for i := 0;i<10000;i++ {
+		var sw sync.WaitGroup
+		var x,y int
+		sw.Add(2)
+		go func() {
+			defer sw.Done()
+			x = 1
+			fmt.Print(y)
+		}()
+
+		go func() {
+			defer sw.Done()
+			y = 1
+			fmt.Print(x)
+		}()
+
+		fmt.Println()
+
+		sw.Wait()
+	}
 }
+
+

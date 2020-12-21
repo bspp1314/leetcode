@@ -3,11 +3,11 @@ package main
 import "fmt"
 
 func main() {
-	out := lengthOfLIS2([]int{0,4,8,2,4,5 })
+	out := lengthOfLIS([]int{0,4,8,2,4,5 })
 	fmt.Println(out)
 }
 
-func lengthOfLIS2(nums []int) int {
+func lengthOfLIS(nums []int) int {
 	if len(nums) <= 1 {
 		return len(nums)
 	}
@@ -47,7 +47,7 @@ func lengthOfLIS2(nums []int) int {
 	return len(tails)
 }
 
-func lengthOfLIS(nums []int) int {
+func lengthOfLIS2(nums []int) int {
 	if len(nums) <= 1 {
 		return len(nums)
 	}

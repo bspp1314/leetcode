@@ -58,7 +58,7 @@ func solve2(board [][]byte)  {
 		}
 	}
 
-	if len(queue) > 0 {
+	for len(queue) > 0 {
 		node := queue[0]
 		queue = queue[1:]
 		x,y := node[0],node[1]
