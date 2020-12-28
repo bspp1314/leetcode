@@ -7,8 +7,8 @@ import (
 
 type NumMatrix struct {
 	Dp [][]int //每一行的前缀和
-}
 
+}
 
 func Constructor(matrix [][]int) NumMatrix {
 	s := NumMatrix{Dp: nil}

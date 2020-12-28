@@ -4,68 +4,82 @@ import (
 	"fmt"
 )
 
+func Max(a,b int) int   {
+	if a > b {
+		return a
+	}
+
+	return b
+}
+
+func Min(a,b int) int   {
+	if a < b {
+		return a
+	}
+
+	return b
+}
+
+
 
 func maxProduct(nums []int) int {
-	if len(nums) <= 0 {
+	if len(nums) == 0 {
 		return 0
 	}
 
-	maxFun := func(a,b int) int  {
-		if a > b {
-			return a
+	dpMax := make([]int,len(nums))
+	dpMin := make([]int,len(nums))
+	dpMax[0] = nums[0]
+	dpMin[0] = nums[0]
+
+	res := 0
+
+	for i := 1; i < len(nums); i++ {
+		newMax := nums[i] * dpMax[i-1]
+		newMin := nums[i] * dpMin[i-1]
+		if newMax < newMin {
+			newMax,newMin = newMin,newMax
 		}
 
-		return b
+		dpMax[i] = Max(newMax,nums[i])
+		dpMin[i] = Min(newMin,nums[i])
+
+		res = Max(res,dpMax[i])
 	}
 
-	minFun := func(a,b int) int  {
-		if a < b {
-			return a
+	return res
+}
+
+func maxProduct2(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	product := nums[0]
+	max := nums[0]
+	min := nums[0]
+
+	for i := 1; i < len(nums); i++ {
+		newMax := nums[i] * max
+		newMin := nums[i] * min
+		if newMax < newMin {
+			newMax,newMin = newMin,newMax
 		}
 
-		return b
-	}
-	//max :=nums[0]
-	//min :=nums[0]
-	//res := nums[0]
-	//
-	maxDp := make([]int,0,len(nums))
-	minDp := make([]int,0,len(nums))
-	maxDp[0] = nums[0]
-	minDp[0] = nums[0]
+		min = Min(nums[i],newMin)
+		max = Max(nums[i],newMax)
+		product = Max(max,product)
 
-	for i:=1;i<len(nums);i++ {
-		//newMax :=maxDp[i-1] * nums[i]
-		//newMin := minDp[i-1] * nums[i]
-		//if newMax < newMin {
-		//	newMin,newMax
-		//}
 	}
 
-	//for i:=0 ;i <len(nums);i++ {
-	//	newMax := max * nums[i]
-	//	newMin := min * nums[i]
-	//
-	//	if newMax < newMin {
-	//		newMax,newMin = newMin,newMax
-	//	}
-	//
-	//	min = minFun(newMin,nums[i])
-	//	max = maxFun(newMax,nums[i])
-	//
-	//	if res > max {
-	//		res = max
-	//	}
-	//}
-
-	return max
+	return product
 }
 
 
 
 func main() {
 	o := maxProduct([]int{-2,3,-4})
-	o2 := maxProduct([]int{-2,3,-4})
+	o2 := maxProduct2([]int{-2,3,-4})
 	fmt.Println(o)
 	fmt.Println(o2)
 }
