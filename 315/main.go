@@ -1,8 +1,8 @@
 package main
 
-import "fmt"
 
 func countSmaller(nums []int) []int {
+	return nil
 }
 
 func main() {
