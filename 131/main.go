@@ -2,73 +2,68 @@ package  main
 
 import "fmt"
 
+
+var dp [][]bool
+
 func partition(s string) [][]string {
-	fmt.Println(s)
 	if len(s) == 0 {
 		return [][]string{}
 	}
-
-	if len(s) == 1 {
-		return [][]string{[]string{s}}
+	dp = make([][]bool,len(s))
+	for i:=0;i<len(s);i++ {
+		dp[i] = make([]bool,len(s))
+		dp[i][i] = true
 	}
 
-
-
-
-	res := make([][]string,0)
-	for i:=0;i<len(s)-1;i++ {
-		res1 := partition(s[:i+1])
-		res2 := partition(s[i+1:])
-
-		if len(res1) == 0 {
-			res = append(res,res1...)
-			continue
-		}
-		//
-		if len(res2) == 0 {
-			res = append(res,res2...)
-			continue
-		}
-
-		for j:=0;j<len(res1);j++ {
-			for m := 0; m < len(res2); m++ {
-				res = append(res,append(res1[j],res2[m]...))
+	for right := 0; right < len(s); right++ {
+		for left := 0; left <=right ; left++ {
+			if s[left] == s[right]  && (right -left <= 2 || dp[left+1][right-1]){
+				dp[left][right] = true
 			}
 		}
 	}
 
-	if havePalindrome(s) {
-		res = append(res,[]string{s})
-	}
+	res := make([][]string,0)
+	partitionHelp(s,0,[]string{},&res)
 
-	return  res
+	return res
 }
 
-
-
-func havePalindrome(s string) bool {
-	left := 0
-	right := len(s) -1
+func isPalindrome(s string,left int,right int) bool  {
 	for left < right {
-		if s[left] != s[right] {
-			return false
-		}
-		left ++
-		right--
+		 if s[left] != s[right] {
+		 	return false
+		 }
+
+		 left += 1
+		 right -=1
 	}
 
 	return true
 }
 
-func main() {
-	s := "aaaa"
-	for i := 0; i < len(s)-1; i++ {
-		fmt.Println(s[:i+1])
-		fmt.Println(s[i+1:])
+
+func partitionHelp(s string,left int,sub []string,res *[][]string)  {
+	if left == len(s) {
+		temp := make([]string,len(sub))
+		copy(temp,sub)
+		*res = append(*res,sub)
+		return
 	}
 
-	out := partition(s)
-	fmt.Println(out)
+	for i:=left;i < len(s);i++ {
+		if !dp[left][i] {
+			continue
+		}
+		newSub := append(sub,s[left:i+1])
+		partitionHelp(s,i+1,newSub,res)
+	}
+
+}
 
 
+
+
+func main() {
+	fmt.Println(partition("abc"))
 }

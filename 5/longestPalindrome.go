@@ -5,29 +5,40 @@ import (
 )
 
 func longestPalindrome2(s string) string {
-	l := len(s)
-	if l == 0 || l == 1 {
+	if len(s) <= 1 {
 		return s
 	}
 
-	dp := make([][]bool, l)
-	for i := range dp {
-		dp[i] = make([]bool, l)
-	}
-	begin := 0
-	sub_len := 0
-
-	for i := 0; i < l; i++ {
-		for j := 0; j < i; j++ {
-			dp[i][j] = (s[i] == s[j] && (i-j < 2 || dp[i-1][j+1]))
-			if dp[i][j] && sub_len < i-j+1 {
-				sub_len = i - j + 1
-				begin = j
-			}
-		}
+	dp := make([][]bool,len(s))
+	for i:=0;i<len(s);i++ {
+		dp[i] = make([]bool,len(s))
 		dp[i][i] = true
 	}
-	return s[begin:sub_len]
+
+	max := 0
+	maxBegin := 0
+	maxEnd := 1
+	for right := 0;right < len(s);right++ {
+		for left := 0;left <= right;left++ {
+			if left == right {
+				continue
+			}
+			if s[left] == s[right] && (dp[left+1][right-1] || right == left+1)  {
+				dp[left][right] = true
+				newLen := right-left + 1
+
+				if newLen > max {
+					max = newLen
+					maxBegin = left
+					maxEnd = right+1
+				}
+			}
+		}
+	}
+
+
+
+	return s[maxBegin:maxEnd]
 
 }
 func expendAroundCenter(s string, begin int, end int) int {
