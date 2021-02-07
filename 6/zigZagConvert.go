@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func convert(s string, numRows int) string {
+func convert2(s string, numRows int) string {
 	if len(s) <= 1 || numRows == 1 {
 		return s
 	}
