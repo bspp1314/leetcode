@@ -8,92 +8,40 @@ import (
 //[-1,2] 1->1->1->>
 // [-10,1,3]  0->3->1->2-1->2
 
-func NextIndex(nums []int,index,l int) int  {
+func NextIndex(nums []int, index, l int) int {
 	nextStep := nums[index] % l
 
-	if nextStep <  0 {
+	if nextStep < 0 {
 		nextStep = l + nextStep
 	}
-
 
 	return (nextStep + index) % l
 
 }
 
-
-
-// 没有新增
-// total  10
-// realTotal 10
-// new 0
-
-
-// 新增的当天
-// total 12
-// realTotal 10
-// new 2
-
-// 新增的后一天
-// total 14
-// realTotal 12
-// new 2
-
 func circularArrayLoop(nums []int) bool {
 	if len(nums) <= 1 {
 		return false
 	}
+	var res bool
+	n := len(nums)
 
-	slow := 0
-	fast:= 0
-	l := len(nums)
+	for i := 0; i < n; i++ {
+		slow := i
+		fast := NextIndex(nums, i, n)
 
-	for i := 0; i < len(nums); i++ {
-		slow = NextIndex(nums,slow,l)
-		fast = NextIndex(nums,fast,l)
-		fast = NextIndex(nums,fast,l)
-		if slow == fast {
-			break
-		}
-	}
+		//保证方向一致
+		for nums[i]*nums[slow] > 0 && nums[i]*nums[fast] > 0 && nums[i]*nums[NextIndex(nums, fast, n)] > 0 {
+			if slow == fast {
+				//保证环的长度至少为1
+				if slow == NextIndex(nums, slow, n) {
+					break
+				}
+				return true
+			}
 
-
-	if slow ==  NextIndex(nums,fast,l) {
-		return false
-	}
-
-	//3 1 2
-	// next is
-	slow = NextIndex(nums,slow,l)
-	for slow != fast {
-		next := NextIndex(nums,slow,l)
-		if nums[slow] * nums[next]  < 0 {
-			return false
-		}
-
-		slow = next
-	}
-
-	return true
-}
-
-func intersection(nums1 []int, nums2 []int) []int {
-	if len(nums2) == 0 || len(nums2) == 0 {
-		return []int{}
-	}
-	m1 := make(map[int]int)
-	for i :=0;i<len(nums1);i++ {
-		m1[nums1[i]]++
-	}
-
-	res := make([]int,0)
-	m2 := make(map[int]int,0)
-
-
-
-	for i :=0;i<len(nums2);i++ {
-		if m1[nums2[i]] > m2[nums2[i]]  {
-			res = append(res,nums2[i])
-			m2[nums2[i]]++
+			slow = NextIndex(nums, slow, n)
+			fast = NextIndex(nums, NextIndex(nums, fast, n), n)
 		}
 	}
 
@@ -106,8 +54,8 @@ func main() {
 	//fmt.Println(circularArrayLoop([]int{-2,1,-1,-2,-2}))
 	//fmt.Println(circularArrayLoop([]int{2,-1,1,-2,-2}))
 	//fmt.Println(circularArrayLoop([]int{-1,-2,-3,-4,-5}))
-	fmt.Println(circularArrayLoop([]int{3,1,2}))
-	fmt.Println(circularArrayLoop([]int{4,1,2,3}))
+	fmt.Println(circularArrayLoop([]int{3, 1, 2}))
+	fmt.Println(circularArrayLoop([]int{4, 1, 2, 3}))
+	fmt.Println(circularArrayLoop([]int{2,-1,1,-2,-2}))
+
 }
-
-
