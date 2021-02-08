@@ -76,7 +76,7 @@ func (s *unionSet)Union(i,j int) error  {
 	return nil
 }
 
-//func main() {
+//func 492() {
 //	s := NewUnionSet(10)
 //	//Before union
 //	fmt.Println(s.GetSet())
