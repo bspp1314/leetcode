@@ -3,8 +3,12 @@ package main
 import "fmt"
 
 func main() {
-	out := lengthOfLIS([]int{0,4,8,2,4,5 })
-	fmt.Println(out)
+	fmt.Println(lengthOfLIS([]int{0,4,8,2,4,5 }))
+	//fmt.Println(lengthOfLIS([]int{0}))
+	fmt.Println(lengthOfLIS([]int{10,9,2,5,3,4}))
+	fmt.Println(lengthOfLIS([]int{4,10,4,3,8,9}))
+	//fmt.Println(findFirstGe([]int{2,5},3))
+	//fmt.Println(kk([]int{2,5},3))
 }
 
 func lengthOfLIS(nums []int) int {
@@ -12,39 +16,70 @@ func lengthOfLIS(nums []int) int {
 		return len(nums)
 	}
 
-
-
 	tails := []int{nums[0]}
-	index := 0
-
 	for i := 1; i < len(nums); i++ {
-		if nums[i] > tails[index] {
+		if nums[i] > tails[len(tails)-1] {
 			tails = append(tails,nums[i])
-			index++
 		}else{
 			left := 0
 			right := len(tails) -1
-			mid := left + (right-left)/2
 
-			for left < right {
-				if nums[i] > tails[mid] {
-					left = mid+1
-				} else if nums[i] < tails[mid] {
-					right = mid
-				} else {
-					right=mid
-					break
+			//第一个大于等于
+			for left <= right {
+				mid := left + (right-left) >> 1
+				if tails[mid] < nums[i] {
+					left = mid + 1
+				}else if tails[mid] >= nums[i] {
+					right = mid - 1
 				}
-				mid = (left + right) / 2
 			}
-
-			tails[right] = nums[i]
+			tails[right+1] = nums[i]
 		}
-
-		fmt.Println(tails)
 	}
 
 	return len(tails)
+}
+
+//获取第一个大于的数
+func findFirstGe(nums []int,target int) int  {
+	left := 0
+	right := len(nums) -1
+	end := right
+	for left <= right {
+		mid := left + (right-left) >> 1
+		if nums[mid] <= target {
+			left = mid + 1
+		}else if nums[mid] > target {
+			right = mid - 1
+		}
+	}
+
+	if right == end {
+		return -1
+	}
+
+	return right + 1
+}
+
+//获取第一个大于等于的数
+func findFirstGe2(nums []int,target int) int  {
+	left := 0
+	right := len(nums) -1
+	end := right
+	for left <= right {
+		mid := left + (right-left) >> 1
+		if nums[mid] < target {
+			left = mid + 1
+		}else if nums[mid] >= target {
+			right = mid - 1
+		}
+	}
+
+	if right == end {
+		return -1
+	}
+
+	return right + 1
 }
 
 func lengthOfLIS2(nums []int) int {
@@ -77,3 +112,8 @@ func lengthOfLIS2(nums []int) int {
 
 	return res
 }
+//
+//func main() {
+//	a := []int{1,2,3,4,4,5,6,7}
+//	fmt.Println(findFirstGe(a,0,len(a)-1,6))
+//}
