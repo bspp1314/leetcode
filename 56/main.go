@@ -42,11 +42,6 @@ func merge(intervals [][]int) [][]int {
 	return res
 }
 
-func Copy(i []int) []int  {
-	res := make([]int,len(i))
-	copy(res,i)
-	return res
-}
 
 func main() {
 	out := merge([][]int{

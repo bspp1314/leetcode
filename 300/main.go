@@ -40,7 +40,6 @@ func lengthOfLIS(nums []int) int {
 	return len(tails)
 }
 
-//获取第一个大于的数
 func findFirstGe(nums []int,target int) int  {
 	left := 0
 	right := len(nums) -1

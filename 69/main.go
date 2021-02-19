@@ -5,37 +5,25 @@ import (
 	"math"
 )
 
-func Abs(a int) int {
-	if a > 0 {
-		return a
-	}
-
-	return -a
-}
-
-
-
-func mySqrt(x float64) float64 {
-	if x == 0 || x == 1 {
-		return 1
-	}
-
-	result := x
-	lastValue := 0.0
-
-	for {
-		lastValue = result
-		result = result / 2.0 + x / 2.0 / result
-		if math.Abs(result-lastValue)  < 0.99  {
-			break
+func mySqrt(x int) int {
+	left, right := 0, x
+	ans := -1
+	for left <= right {
+		mid := left + (right-left)/2
+		if mid*mid <= x {
+			ans = mid
+			left = mid + 1
+		} else {
+			right = mid - 1
 		}
 	}
-
-	return result
+	return ans
 }
-
 func main() {
-	fmt.Println(mySqrt(9))
-	fmt.Println(mySqrt(15))
+	for i := 0; i <=10000 ; i++ {
+		if !(int(math.Sqrt(float64(i))) == mySqrt(i)) {
+			fmt.Println("i",i)
+		}
 
+	}
 }

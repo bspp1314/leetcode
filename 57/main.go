@@ -2,6 +2,50 @@ package main
 
 import "fmt"
 
+func insert2(intervals [][]int, newInterval []int) (res [][]int)  {
+	left,right := newInterval[0],newInterval[1]
+	merged := false
+
+	for _, interval := range intervals {
+		// （left,right） 和  interval 没有交集,且在（left,right 的在 interval 的右侧）
+		if interval[0] > right {
+			if ! merged {
+			   res = append(res,[]int{left,right})
+			   merged = true
+			}
+
+			res = append(res,interval)
+		}else if interval[1] < left {
+			// left,right） 和  interval 没有交集,且在（left,right 的在 interval 的左侧
+			res = append(res,interval)
+		}else{
+			// 与插入区间有交集，计算它们的并集
+			left = Min(left, interval[0])
+			right = Max(right, interval[1])
+		}
+	}
+
+	if !merged {
+		res  = append(res,[]int{left,right})
+	}
+
+	return res
+}
+
+func Min(a,b int) int   {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func Max(a,b int) int  {
+	if a > b {
+		return a
+	}
+
+	return b
+}
 func insert(intervals [][]int, newInterval []int) [][]int {
 	if len(intervals) == 0 {
 		return [][]int{newInterval}
