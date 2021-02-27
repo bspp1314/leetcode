@@ -1,79 +1,38 @@
 package main
 
-import "fmt"
-
 func majorityElement(nums []int) int {
-	max_time := 0
-	max_value := 0
-	timesMap := make(map[int]int)
+	//摩尔投票法,先假设第一个数过半数并设cnt=1；遍历后面的数如果相同则cnt+1，
+	// 不同则减一，当cnt为0时则更换新的数字为候选数（成立前提：有出现次数大于n/2的数存在）
 
-	n1 := len(nums) / 2
+	// 摩尔投票法：
 
-	for i := 0; i < len(nums); i++ {
-		fmt.Println("i", i)
-		if timesMap[nums[i]] != 0 {
-			timesMap[nums[i]] = timesMap[nums[i]] + 1
-		} else {
-			timesMap[nums[i]] = 1
-		}
+	//核心就是对拼消耗。
 
-		if timesMap[nums[i]] > max_time {
-			max_time = timesMap[nums[i]]
-			max_value = nums[i]
-		}
+	//玩一个诸侯争霸的游戏，假设你方人口超过总人口一半以上，并且能保证每个人口出去干仗都能一对一同归于尽。最后还有人活下来的国家就是胜利。
 
-		if timesMap[nums[i]] > n1 {
-			return nums[i]
-		}
+	//那就大混战呗，最差所有人都联合起来对付你（对应你每次选择作为计数器的数都是众数），或者其他国家也会相互攻击（会选择其他数作为计数器的数），但是只要你们不要内斗，最后肯定你赢。
 
-	}
+	//最后能剩下的必定是自己人。
 
-	fmt.Println(timesMap)
-
-	return max_value
-}
-
-func DividemajorityElement(nums []int) int {
-	return majorityElementRec(nums, 0, len(nums)-1)
-}
-
-func countInRange(nums []int, num, lo, hi int) int {
 	res := 0
-	for i := lo; i <= hi; i++ {
-		if nums[i] == num {
-			res++
+	cnt := 0
+
+	for i :=0;i<len(nums);i++ {
+		if cnt == 0 {
+			res = nums[i]
+			cnt++
+		}else{
+			if res == nums[i] {
+				cnt++
+			}else{
+				cnt--
+			}
 		}
 	}
 
 	return res
 }
 
-func majorityElementRec(nums []int, lo, hi int) int {
-	if lo == hi {
-		return nums[lo]
-	}
-
-	mid := (hi-lo)/2 + lo
-
-	left := majorityElementRec(nums, lo, mid)
-	right := majorityElementRec(nums, mid+1, hi)
-
-	if left == right {
-		return left
-	}
-
-	leftCount := countInRange(nums, left, lo, hi)
-	rightCount := countInRange(nums, right, lo, hi)
-
-	if leftCount > right {
-		return leftCount
-	} else {
-		return rightCount
-	}
-}
-
 func main() {
-	//fmt.Println(majorityElement([]int{2,2,1,1,1,2,2}))
-	fmt.Println(DividemajorityElement([]int{2, 2, 1, 1, 1, 2, 2}))
 
 }
