@@ -63,6 +63,27 @@ func rightSideView2(root *TreeNode) []int {
 	return res
 }
 
+func rightSideView3(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return []int{root.Val}
+	}
+
+	right := rightSideView(root.Right)
+	left  := rightSideView(root.Left)
+
+	res := []int{root.Val}
+	res = append(res,right...)
+	if len(right) < len(left) {
+		res = append(res,left[len(right):]...)
+	}
+
+	return res
+}
+
 func main() {
 	root := &TreeNode{
 		Val:   1,
@@ -94,5 +115,6 @@ func main() {
 
 	fmt.Println(rightSideView(root))
 	fmt.Println(rightSideView2(root))
+	fmt.Println(rightSideView3(root))
 
 }

@@ -1,29 +1,6 @@
 package main
 
-import "fmt"
-
 type TestStruct struct{}
-
-type TestInterFace interface {
-	Hello()
-	Hell2()
-}
-
-
-func NilOrNot(v interface{}) bool {
-	return v == nil
-}
-
-func main() {
-	var s *TestStruct
-	var v TestInterFace
-	fmt.Println(s == nil)
-	fmt.Println(NilOrNot(s))
-	fmt.Println(v == nil)
-	fmt.Println(NilOrNot(v))
-}
-
-
 
 
 func rotate(nums []int, k int) {
@@ -44,41 +21,30 @@ func rotate(nums []int, k int) {
 	rotateHelp(nums, 0, len(nums)-1)
 }
 
-func rotate2(nums []int, k int) {
-	if len(nums) == 0 {
-		return
-	}
-
+func rotate2(nums []int, k int)  {
 	l := len(nums)
-	k = k % l
-	if k == 0 {
-		return
-	}
+	k  = k % l
 
-	// k = 3
-	// 1 2 3 4 5 6 7
-	//swap index
-	// 3 4 5 6 0 1 2
-	// 1 2 3 4
-	count := 0
-	for i := 0; count < len(nums); i++ {
-		currentIndex := i
-		currentValue := nums[i]
+
+	times := 0
+
+	for i := 0;times < len(nums);i++ {
+		index := i
+		indexV := nums[i]
+
 
 		for {
-			swapIndex := (currentIndex + k) % l
-			temp := nums[swapIndex]
-			nums[swapIndex] = currentValue
-			currentIndex = swapIndex
-			currentValue = temp
-			count++
-			//阻止其调回原来的位置
-			if currentIndex == i {
+			index = (index + k ) % l
+			tem  := nums[index]
+
+			nums[index] = indexV
+			indexV = tem
+			times++
+			if indexV == i {
 				break
 			}
 		}
 	}
-
 }
 
 func rotateHelp(nums []int, left, right int) {
@@ -101,10 +67,4 @@ func main() {
 	//fmt.Println(nums2)
 	//fmt.Println(nums3)
 
-	var s *TestStruct
-	var v TestInterFace
-	fmt.Println(s == nil)      // #=> true
-	fmt.Println(NilOrNot(s))   // #=> false
-	fmt.Println(v == nil)      // #=> true
-	fmt.Println(NilOrNot(v))   // #=> false
 }
