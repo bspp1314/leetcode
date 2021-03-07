@@ -11,22 +11,43 @@ func findKthLargest(nums []int, k int) int {
 	return sort(nums, 0, len(nums)-1, k-1)
 }
 
-func sort(nums []int, left int, right int,k int) int  {
-	index := patition(nums,left,right)
-	if index == k   {
+func sort(nums []int, left int, right int, k int) int {
+	index := patition(nums, left, right)
+	if index == k {
 		return nums[k]
-	}else if  index < k {
-		return sort(nums,index + 1,right,k)
-	}else{
-		return sort(nums,left,index-1,k)
+	} else if index < k {
+		return sort(nums, index+1, right, k)
+	} else {
+		return sort(nums, left, index-1, k)
 	}
 }
+
+func findKthLargestZ(nums []int, k int) []int {
+	Sort2(nums, 0, len(nums)-1, k-1)
+	return nums[:k]
+
+}
+
+func Sort2(nums []int, left int, right int, k int) {
+	if left >= right {
+		return
+	}
+	index := patition(nums, left, right)
+	if index >= k {
+		Sort2(nums, left, index-1, k)
+	} else {
+		Sort2(nums, left, index-1, k)
+		Sort2(nums, index+1, right, k)
+	}
+}
+
 func randomPartition(l, r int) int {
 	return rand.Int()%(r-l+1) + l
 }
 
 func patition(nums []int, l int, r int) int {
 	index := randomPartition(l, r)
+	index = l
 	p := nums[index]
 	//为了获取中间的数
 	nums[index], nums[l] = nums[l], nums[index]
@@ -51,7 +72,7 @@ func patition(nums []int, l int, r int) int {
 }
 
 func main() {
-	a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10,10}
+	a := []int{1, 1, 2, 2, 1}
 
-	fmt.Println(findKthLargest(a,3))
+	fmt.Println(findKthLargestZ(a, 2))
 }
