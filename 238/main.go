@@ -79,6 +79,8 @@ func productExceptSelf3(nums []int) []int {
 		Left[i] = Left[i-1] * nums[i-1]
 	}
 
+	fmt.Println("Left is ",Left)
+
 	R := 1
 	for i := n - 1; i >= 0; i-- {
 		// 对于索引 i，左边的乘积为 answer[i]，右边的乘积为 R
@@ -96,9 +98,11 @@ func productExceptSelf3(nums []int) []int {
 
 
 
+
+
 func main() {
-	fmt.Println(productExceptSelf([]int{1, 2, 3, 4, 5}))
-	fmt.Println(productExceptSelf2([]int{1, 2, 3, 4, 5}))
-	fmt.Println(productExceptSelf3([]int{1, 2, 3, 4, 5}))
+	//fmt.Println(productExceptSelf([]int{1, 2, 3, 4, 5}))
+	//fmt.Println(productExceptSelf2([]int{1, 2, 3, 4, 5}))
+	fmt.Println(productExceptSelf3([]int{1, 2, 3, 4}))
 
 }
