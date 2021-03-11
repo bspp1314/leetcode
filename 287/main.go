@@ -15,6 +15,7 @@ func findDuplicate(nums []int) int {
 	slow := 0
 	fast := 0
 
+	// flow 算法。
 	for  {
 		slow = nums[slow]
 		fast = nums[nums[fast]]
