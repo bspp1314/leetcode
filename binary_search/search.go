@@ -2,85 +2,65 @@ package main
 
 import "fmt"
 
-func binarySearch(array []int, key int) int {
+// 第一类
+
+//这是最简单的一类，也是我们最开始学二分查找法需要解决的问题，比如我们有数组 [2, 4, 5, 6, 9]，target = 6，那么我们可以写出二分查找法的代码如下：
+
+func find(a []int,target int) int   {
 	left := 0
-	right := len(array) - 1
-	for left <= right {
-		mid := left + (right-left)/2
-		if key == array[mid] {
-			return mid
-		} else if key > array[mid] {
+	right := len(a) -1
+	for left < right {
+		mid := left + (right - left) /2
+		if a[mid] == target {
+			return  mid
+		}else if a[mid] < target {
 			left = mid + 1
-		} else {
-			right = mid - 1
+		}else{
+			right = right -1
 		}
 	}
+
 	return -1
 }
 
-func binarySearch2(array []int, left int, right int, key int) int {
-	if left > right {
-		return -1
-	}
-	mid := left + (right-left)/2
-	if key == array[mid] {
-		return mid
-	} else if key > array[mid] {
-		return binarySearch2(array, mid+1, right, key)
-	} else {
-		return binarySearch2(array, left, mid-1, key)
-	}
-}
+// 查找第一个大于等于目标值的数，可变形为查找最后一个小于目标值的数
+// 1 2 2 3 3 4 4  target 2  want index is 2
+// 这一类可以轻松的变形为查找最后一个小于目标值的数，怎么变呢。
+//我们已经找到了第一个不小于目标值的数，那么再往前退一位，返回 right - 1，就是最后一个小于目标值的数。
 
-//数组之中的数据可能可以重复，要求返回匹配的数据的最小的下标
-func binarySearch3(array []int, key int) int {
+func find2(a []int,target int) int   {
 	left := 0
-	right := len(array) - 1
-	result := -1
-	for left <= right {
-		mid := left + (right-left)/2
-		if key == array[mid] {
-			result = mid
-			right = mid - 1
-		} else if key > array[mid] {
+	right := len(a) -1
+	for left < right {
+		mid := left + (right - left) /2
+		if a[mid] < target {
 			left = mid + 1
-		} else {
-			right = mid - 1
+		}else{
+			right = mid
 		}
 	}
-	return result
+
+	return right
 }
 
-//数组之中的数据可能可以重复，要求返回匹配的数据的最大的下标
-func binarySearch4(array []int, key int) int {
+// 第三类： 查找第一个大于目标值的数，可变形为查找最后一个不大于目标值的数
+// 这一类可以轻松的变形为查找最后一个不大于目标值的数，怎么变呢。我们已经找到了第一个大于目标值的数，那么再往前退一位，返回 right - 1，
+func find3(nums []int,target int) int   {
 	left := 0
-	right := len(array) - 1
-	result := -1
-	for left <= right {
-		mid := left + (right-left)/2
-		if key == array[mid] {
-			result = mid
+	right := len(nums) -1
+	for left < right {
+		mid := left + (right - left) / 2
+		if nums[mid] <= target {
 			left = mid + 1
-		} else if key > array[mid] {
-			left = mid + 1
-		} else {
-			right = mid - 1
+		}else{
+			right = mid
 		}
 	}
-	return result
+
+	return right
 }
+
 func main() {
-	array := []int{-1, -2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}
-	//	fmt.Println(binarySearch(array, 1))
-	//	fmt.Println(binarySearch(array, 2))
-	//	fmt.Println(binarySearch(array, 3))
-	//	fmt.Println(binarySearch(array, 4))
-	//	fmt.Println(binarySearch(array, 0))
-	//	fmt.Println(binarySearch2(array, 0, len(array), 1))
-	//	fmt.Println(binarySearch2(array, 0, len(array), 2))
-	//	fmt.Println(binarySearch2(array, 0, len(array), 3))
-	//	fmt.Println(binarySearch2(array, 0, len(array), 4))
-	//	fmt.Println(binarySearch2(array, 0, len(array), 0))
-	fmt.Println(binarySearch3(array, 10))
-	fmt.Println(binarySearch4(array, 10))
+	fmt.Println(find2([]int{1,2,2,3,3,4,4},2))
+	fmt.Println(find3([]int{1,2,2,3,3,4,4},2))
 }
