@@ -1,9 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 // 1 公牛和 3 奶牛。公牛是 8，奶牛是 0, 1 和 7。
 func getHint(secret string, guess string) string {
+	runtime.GC()
 	secretMap := make(map[byte]int)
 	var subGuess []byte
 	A := 0
@@ -59,6 +63,25 @@ func getHint(secret string, guess string) string {
 	return res
 }
 
+//求交集
+func intersect(slice1, slice2 []string) []string {
+	m := make(map[string]int)
+	nn := make([]string, 0)
+	for _, v := range slice1 {
+		m[v]++
+	}
+
+	for _, v := range slice2 {
+		times, _ := m[v]
+		if times == 1 {
+			nn = append(nn, v)
+		}
+	}
+	return nn
+}
+
 func main() {
+	out := intersect([]string{"1","1","1"},[]string{"1"})
+	fmt.Println(out)
 	fmt.Println(getHint("1123","0111"))
 }
