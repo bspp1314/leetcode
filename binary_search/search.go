@@ -61,6 +61,6 @@ func find3(nums []int,target int) int   {
 }
 
 func main() {
-	fmt.Println(find2([]int{1,2,2,3,3,4,4},2))
+	fmt.Println(find2([]int{1,2,2,3,3,4,4},5))
 	fmt.Println(find3([]int{1,2,2,3,3,4,4},2))
 }
