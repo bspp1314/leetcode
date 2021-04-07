@@ -24,16 +24,16 @@ func lengthOfLIS(nums []int) int {
 			left := 0
 			right := len(tails) -1
 
-			//第一个大于等于
-			for left <= right {
-				mid := left + (right-left) >> 1
+
+			for left < right {
+				mid := left + (right - left) /2
 				if tails[mid] < nums[i] {
 					left = mid + 1
-				}else if tails[mid] >= nums[i] {
-					right = mid - 1
+				}else{
+					right = mid
 				}
 			}
-			tails[right+1] = nums[i]
+			tails[right] = nums[i]
 		}
 	}
 
@@ -60,26 +60,6 @@ func findFirstGe(nums []int,target int) int  {
 	return right + 1
 }
 
-//获取第一个大于等于的数
-func findFirstGe2(nums []int,target int) int  {
-	left := 0
-	right := len(nums) -1
-	end := right
-	for left <= right {
-		mid := left + (right-left) >> 1
-		if nums[mid] < target {
-			left = mid + 1
-		}else if nums[mid] >= target {
-			right = mid - 1
-		}
-	}
-
-	if right == end {
-		return -1
-	}
-
-	return right + 1
-}
 
 func lengthOfLIS2(nums []int) int {
 	if len(nums) <= 1 {
