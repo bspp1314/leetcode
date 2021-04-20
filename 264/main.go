@@ -26,39 +26,39 @@ func nthUglyNumber(n int) int{
 	if n == 0 {
 		return 1
 	}
+
+	n1 := 0
+	n2 := 0
+	n3 := 0
 	dp := make([]int,n)
 	dp[0] = 1
 
-	i2 := 0
-	i3 := 0
-	i5  := 0
+	for i := 1; i < n; i++ {
+		v1 := dp[n1] * 2
+		v2 := dp[n2] * 3
+		v3 := dp[n3] * 5
 
-	count := 1
+		dp[i] = Min(v1,Min(v2,v3))
 
-	for count < n {
-		m2 := dp[i2] * 2
-		m3 := dp[i3] * 3
-		m5 := dp[i5] * 5
-
-		//get min
-		min := Min(m2,Min(m3,m5))
-		if min == m2 {
-			i2++
-		}else if min == m3 {
-			i3++
-		}else{
-			i5++
+		if v1 == dp[i] {
+			n1++
 		}
 
-		dp[count] = min
-		count++
+		if v2 == dp[i] {
+			n2++
+		}
+
+		if v3 == dp[i] {
+			n3++
+		}
+
 	}
 
-	return dp[count-1]
+	return dp[n-1]
 
 }
 
 
 func main() {
-	fmt.Println(nthUglyNumber(1000))
+	fmt.Println(nthUglyNumber(10))
 }
