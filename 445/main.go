@@ -7,6 +7,8 @@ type ListNode struct {
 	Next *ListNode
 }
 
+
+
 func ArrayToListNode(arr []int) *ListNode {
 	if len(arr) == 0 {
 		return nil
