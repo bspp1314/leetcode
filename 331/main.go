@@ -2,46 +2,44 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 func isValidSerialization(preorder string) bool {
-	return IsValidSerialization(strings.Split(preorder,","))
+	// n := len(preorder)
+	// stack := []int{1}
+	//
+	//for i := 0; i < n; {
+	//	if len(stack) == 0 {
+	//		return false
+	//	}
+	//
+	//	if preorder[i] == ',' {
+	//		i++
+	//		continue
+	//	}
+	//
+	//	if preorder[i] == '#' {
+	//		stack[len(stack)-1]--
+	//		if stack[len(stack)-1] == 0 {
+	//			stack = stack[:len(stack)-1]
+	//		}
+	//		i++
+	//	}else{
+	//		for i <n  && preorder[i] != ',' {
+	//			i++
+	//		}
+	//
+	//		stack[len(stack)-1]--
+	//		if stack[len(stack)-1] == 0 {
+	//			stack = stack[:len(stack)-1]
+	//		}
+	//		stack = append(stack, 2)
+	//
+	//	}
+	//
+	//}
 }
 
-func IsValidSerialization(preorder []string) bool {
-	if len(preorder) == 1 {
-		return true
-	}
-
-	if preorder[0] == "#" {
-		return false
-	}
-
-	for i:=1;i<len(preorder);i++ {
-		res := true
-		if len(preorder) == 7 && i == 3 {
-			fmt.Println(preorder[1:i+1])
-			fmt.Println(preorder[i+1:])
-		}
-		res = res && IsValidSerialization(preorder[1:i+1])
-		if i != len(preorder) -1 {
-			res = res && IsValidSerialization(preorder[i+1:])
-		}
-
-		if res {
-			return true
-		}
-	}
-
-	return false
-
-
-
-
-
-	return res
-}
 
 func main()  {
 	in := "3,4,#,#,1,#,#"
