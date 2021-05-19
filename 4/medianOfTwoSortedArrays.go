@@ -2,36 +2,44 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
-func findKthSmallest(num1 []int, num2 []int, k int) float64 {
-	l1 := len(num1)
-	l2 := len(num2)
-	if l1 == 0 {
-		return float64(num2[k-1])
-	} else if l2 == 0 {
-		return float64(num1[k-1])
+func findK(nums1 []int,nums2 []int,i,j,k int) float64  {
+	if i >= len(nums1) {
+		return float64(nums2[j+k-1])
+	}
+
+	if j >= len(nums2) {
+		return float64(nums2[i+k-1])
 	}
 
 	if k == 1 {
-		if num1[0] < num2[0] {
-			return float64(num1[0])
-		} else {
-			return float64(num2[0])
-		}
+		return math.Min(float64(nums1[i]),float64(nums2[j]))
 	}
 
-	idx1 := (l1 / (l1 + l2)) * (k - 1)
-	idx2 := (k - (idx1 + 1) - 1)
+	mid1 := 0
+	mid2 := 0
 
-	if num1[idx1] == num2[idx2] {
-		return float64(num1[idx1])
-	} else if num1[idx1] < num2[idx2] {
-		return findKthSmallest(num1[idx1+1:], num2, k-idx1-1)
-	} else {
-		return findKthSmallest(num1, num2[idx2+1:], k-idx2-1)
+	if i + k / 2  -1  < len(nums1) {
+		mid1 = nums1[i+k/2-1]
+	}else{
+		mid1 = math.MaxInt64
 	}
 
+	//计算出每次要比较的两个数的值，来决定 "删除"" 哪边的元素
+	if j + k/2 -1 < len(nums2) {
+		mid2 = nums2[j+k/2-1]
+	}else{
+		mid2 = math.MaxInt64
+	}
+
+	//通过递归的方式，来模拟删除掉前K/2个元素
+	if mid1 < mid2 {
+		return findK(nums1,nums2,i+k/2,j,k-k/2)
+	}else{
+		return findK(nums1,nums2,i,j+k/2,k-k/2)
+	}
 }
 
 func findMedianSortedArrays2(num1 []int, num2 []int) float64 {
@@ -40,11 +48,12 @@ func findMedianSortedArrays2(num1 []int, num2 []int) float64 {
 
 	mid := (l1 + l2) / 2
 	if ((l1 + l2) % 2) == 1 {
-		return findKthSmallest(num1, num2, mid+1)
+		return findK(num1, num2,0,0, mid+1)
 	} else {
-		return (findKthSmallest(num1, num2, mid) + findKthSmallest(num1, num2, mid+1)) / 2.0
+		return (findK(num1, num2,0,0, mid+1) + findK(num1, num2, 0,0,mid+1)) / 2.0
 	}
 }
+
 func findMedianSortedArrays(num1 []int, num2 []int) float64 {
 	len1 := len(num1)
 	len2 := len(num2)
