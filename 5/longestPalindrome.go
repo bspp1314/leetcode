@@ -41,38 +41,53 @@ func longestPalindrome2(s string) string {
 	return s[maxBegin:maxEnd]
 
 }
-func expendAroundCenter(s string, begin int, end int) int {
-	l := len(s)
-	for begin >= 0 && end < l && s[begin] == s[end] {
-		begin--
-		end++
-	}
-	return end - begin - 1
-}
 
 func longestPalindrome(s string) string {
-	begin := 0
-	end := 0
-	l := len(s)
-
-	if l <= 1 {
+	if len(s) <= 1 {
 		return s
 	}
-	for i := 0; i < l; i++ {
-		len1 := expendAroundCenter(s, i, i)
-		len2 := expendAroundCenter(s, i, i+1)
 
-		new_len := len1
-		if len1 < len2 {
-			new_len = len2
-		}
+	dp := make([][]bool,len(s))
+	for i:=0;i<len(s);i++ {
+		dp[i] = make([]bool,len(s))
+		dp[i][i] = true
+	}
+	begin := 0
+	end := 0
 
-		if new_len > (end - begin) {
-			begin = i - (new_len-1)/2
-			end = i + new_len/2
+
+	for j:=0;j < len(s);j++ {
+		for i:=0;i <=j;i++ {
+			if (j - i) <= 1 || (s[i] == s[j] && dp[i+1][j-1]) {
+				dp[i][j] = true
+				if j -i > end -begin {
+					end = j
+					begin = i
+				}
+			}
 		}
 	}
-	return s[begin : end+1]
+
+	return s[begin:end+1]
+
+
+
+
+}
+
+
+
+
+func expand(s string,left int,right int,n int ) (int,int)  {
+	for left >= 0 && right <= n {
+		if s[left] != s[right] {
+			break
+		}
+		left--
+		right++
+	}
+
+	return left+1,right-1
 }
 
 func min(x int, y int) int {
@@ -116,5 +131,5 @@ func longestPalindrome3(s string) string {
 
 }
 func main() {
-	fmt.Println(longestPalindrome3("kkkm"))
+	fmt.Println(longestPalindrome("kkkm"))
 }
