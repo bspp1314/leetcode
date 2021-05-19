@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -72,7 +71,4 @@ func patition(nums []int, l int, r int) int {
 }
 
 func main() {
-	a := []int{1, 1, 2, 2, 1}
-
-	fmt.Println(findKthLargestZ(a, 2))
 }
