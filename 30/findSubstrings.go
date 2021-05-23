@@ -5,12 +5,16 @@ func findSubstring(s string, words []string) []int {
 	if l == 0 {
 		return nil
 	}
-	stepSize := len(words[0])
-	steps := l * stepSize
+	step := len(words[0]) //步长
+	steps := l * step     //总步数
 	sLen := len(s)
 
 	wordsMap := make(map[string]int)
+
 	for i := 0; i < l; i++ {
+		if len(words[i]) != step {
+			return []int{}
+		}
 		wordsMap[words[i]]++
 	}
 
@@ -18,32 +22,29 @@ func findSubstring(s string, words []string) []int {
 	for i := 0; i < sLen-steps+1; i++ {
 		subMaps := make(map[string]int)
 		j := 0
+		equal := true
 		for j = 0; j < l; j++ {
-			begin := i + stepSize*j
-			end := begin + stepSize
-			keyStr := s[begin:end]
-			if _, ok := wordsMap[keyStr]; !ok {
-				goto Loop
+			begin := i + step*j
+			end := begin + step
+			if _, ok := wordsMap[s[begin:end]]; !ok {
+				break
 			} else {
-				subMaps[keyStr]++
-				if subMaps[keyStr] > wordsMap[keyStr] {
-					goto Loop
+				subMaps[s[begin:end]]++
+				if subMaps[s[begin:end]] > wordsMap[s[begin:end]] {
+					equal = false
+					break
 				}
 			}
 		}
-		if j != steps {
-			continue
-		}
 
-		for k, v := range wordsMap {
-			if v2 := wordsMap[k]; v2 != v {
-				goto Loop
-			}
+		if !equal || j != l {
+			continue
+		} else {
+			res = append(res, i)
 		}
-		res = append(res, i)
-	Loop:
-		continue
 	}
+	return res
+
 }
 
 func main() {
