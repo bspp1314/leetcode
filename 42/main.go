@@ -16,25 +16,31 @@ func trap2(height []int) int   {
 	if len(height) <= 2 {
 		return 0
 	}
+	var stack []int
+	var ans int
 
-	stack := make([]int,len(height))
-	pointer := -1
-
-	res := 0
-	for i:=0;i<len(height);i++ {
-		for pointer >= 0 && height[i] > height[stack[pointer]] {
-			top := stack[pointer]
-			pointer--
-			if pointer >= 0 {
-				res += (i -  stack[pointer]  -1 ) *  (min(height[i],height[stack[pointer]]) - height[top])
+	for i,h := range height {
+		for len(stack) > 0 && h > height[stack[len(stack)-1]] {
+			top := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			if len(stack) == 0 {
+				break
 			}
+
+			left := stack[len(stack)-1]
+
+			curWidth := i - left - 1
+			curHeight := min(height[left], h) - height[top]
+			ans += curWidth * curHeight
+
 		}
 
-		pointer++
-		stack[pointer] = i
+		stack = append(stack, i)
 	}
 
-	return res
+
+
+	return ans
 }
 
 func max(a,b int) int   {
