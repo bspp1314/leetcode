@@ -9,8 +9,37 @@ type key struct {
 	row  int
 }
 
+func isValidSudoku2(board [][]byte) bool {
+	dataMaps := make([]map[byte]bool, 27)
+	for i := 0; i < 9; i++ {
+		dataMaps[i] = make(map[byte]bool)    // line
+		dataMaps[i+9] = make(map[byte]bool)  // row
+		dataMaps[i+18] = make(map[byte]bool) // table
+	}
+
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			if board[i][j] == '.' {
+				continue
+			}
+
+			key := board[i][j]
+			//所在行
+
+			if dataMaps[i][key] || dataMaps[j+9][key] || dataMaps[(i/3)*3+(j/3)+18][key] {
+				return false
+			}
+			dataMaps[i][key] = true
+			dataMaps[j+9][key] = true
+			dataMaps[(i/3)*3+(j/3)+18][key] = true
+		}
+	}
+
+	return true
+}
+
 func isValidSudoku(board [][]byte) bool {
-	dataMaps := make([](map[int]bool), 27)
+	dataMaps := make([]map[int]bool, 27)
 	for i := 0; i < 9; i++ {
 		dataMaps[i] = make(map[int]bool)
 		dataMaps[i+9] = make(map[int]bool)
@@ -45,4 +74,5 @@ func main() {
 		{'.', '.', '.', '.', '8', '.', '.', '7', '9'},
 	}
 	fmt.Println(isValidSudoku(in))
+	fmt.Println(isValidSudoku2(in))
 }
