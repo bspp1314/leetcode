@@ -59,7 +59,5 @@ func search(nums []int, target int) int {
 
 func main() {
 	nums := []int{7, 8, 9, 10, 1, 2, 3, 4, 5, 7}
-	for i := 0; i < len(nums); i++ {
-		fmt.Println(search(nums, nums[i]))
-	}
+		fmt.Println(search(nums, 3))
 }
