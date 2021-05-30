@@ -24,6 +24,31 @@ func maxSubArray(nums []int) int {
 	return max
 }
 
+func maxSubArray3(nums []int) int {
+	if len(nums) <= 0 {
+		return 0
+	}
+
+	max := nums[0]
+	sum := nums[0]
+	i := 1
+	l := len(nums)
+
+	for i < l  {
+		sum += nums[i]
+		if sum < nums[i] {
+			sum = nums[i]
+		}
+
+		if max < sum {
+			max = sum
+		}
+		i++
+	}
+
+	return max
+}
+
 func maxSubArray1(nums []int) int {
 	if len(nums) <= 0 {
 		return 0
