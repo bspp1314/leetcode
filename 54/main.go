@@ -17,6 +17,51 @@ func spiralOrder(matrix [][]int) []int {
 	return out
 }
 
+func spiralOrder2(matrix [][]int) []int {
+	if len(matrix) == 0 || len(matrix[0]) == 0 {
+		return []int{}
+	}
+
+	top := 0
+	bottom := len(matrix) - 1
+	left := 0
+	right := len(matrix[0]) - 1
+
+	res := make([]int,len(matrix)*len(matrix[0]))
+	index := 0
+	for left <= right && top <= bottom {
+		for column := left; column <=right; column++ {
+			res[index] = matrix[top][column]
+			index++
+		}
+
+		for row := top+1;row <= bottom;row++ {
+			res[index] = matrix[row][right]
+			index++
+		}
+
+		if (left < right && top < bottom) {
+			for column := right - 1; column > left; column-- {
+				res[index] = matrix[bottom][column]
+				index++
+			}
+			for row := bottom; row > top; row-- {
+				res[index] = matrix[row][left]
+				index++
+			}
+		}
+
+		left++
+		right--
+		top++
+		bottom--
+
+	}
+
+	return  res
+}
+
+
 func spiralOrderHelp(matrix [][]int, left int, right int, top int, down int, out *[]int) {
 	if left > right {
 		return
@@ -71,4 +116,7 @@ func main() {
 	}
 	fmt.Println()
 	fmt.Println("vim-go")
+
+	spiralOrder2([][]int{{2,3}})
+	spiralOrder2([][]int{{2},{3}})
 }
