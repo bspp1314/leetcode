@@ -66,8 +66,117 @@ func multiply(num1 string, num2 string) string {
 
 }
 
+//8111
+// 333
+func add(nums1,nums2 []byte) []byte {
+	//if len(nums1) < len(nums2) {
+	//	return add(nums2,nums1)
+	//}
+
+	p1 := len(nums1)-1
+	p2 := len(nums2)-1
+	low := 0
+	res := make([]byte,0)
+	for p1 >= 0 || p2 >= 0 {
+		h := low
+		if p1 >= 0 {
+			h +=  int(nums1[p1] - '0')
+			p1--
+		}
+
+		if p2 >= 0 {
+			h +=  int(nums2[p2] - '0')
+			p2--
+		}
+
+		res = append(res,byte('0' + h%10))
+		low = h / 10
+	}
+
+	if low != 0 {
+		res = append(res,byte('0'+low))
+	}
+
+	left := 0
+	right := len(res) -1
+
+	for left < right {
+		res[right],res[left] = res[left],res[right]
+		left++
+		right--
+	}
+
+	return res
+}
+
+func multiply2(num1 string, num2 string) string {
+	if num1 == "0" || num2 == "0" {
+		return "0"
+	}
+
+	var res []byte
+	for i := 0;i < len(num1);i ++ {
+		if i == 0 {
+			res = mul(num2,num1[i])
+		}else{
+			res = add(res,mul10(mul(num2,num1[i]),i))
+		}
+	}
+
+	return string(res)
+}
+
+func mul10(num []byte,d int) []byte {
+	if d == 0 {
+		return num
+	}
+
+
+	for i := 0;i < d ;i++ {
+		num = append(num,'0')
+	}
+
+	return num
+}
+
+func mul(num string,c byte) []byte {
+	if c  == '0' {
+		return []byte{'0'}
+	}
+
+	if c == '1' {
+		return []byte(num)
+	}
+
+	p := len(num) -1
+	low := 0
+	res := make([]byte,0)
+
+	for  p >= 0 {
+		h := low
+		h += int(num[p]-'0') * int(c - '0')
+		res = append(res,byte(h+'0') % 10 )
+		low = h / 10
+		p--
+	}
+
+	if low != 0 {
+		res = append(res,byte('0'+low))
+	}
+
+	left := 0
+	right := len(res) -1
+
+	for left < right {
+		res[right],res[left] = res[left],res[right]
+		left++
+		right--
+	}
+
+	return res
+}
+
 
 func main() {
-	fmt.Println(multiply("A", "A"))
-	fmt.Println(ByteToInt('1'))
+	fmt.Println(multiply2("3","245"))
 }

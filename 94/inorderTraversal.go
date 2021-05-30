@@ -1,53 +1,11 @@
 package main
 
-import (
-	"container/list"
-)
-
-//二叉树的中序遍历
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
 }
-type Stack struct {
-	list *list.List
-}
 
-func NewStack() *Stack {
-	return &Stack{list.New()}
-}
-func (s *Stack) Push(v interface{}) {
-	s.list.PushBack(v)
-}
-func (s *Stack) Pop() interface{} {
-	e := s.list.Back()
-	if e != nil {
-		s.list.Remove(e)
-		return e.Value
-	}
-	return nil
-}
-func (s *Stack) Len() int {
-	return s.list.Len()
-}
-
-func inorderTraversal2(root *TreeNode) []int {
-	res := make([]int, 0)
-	stack := NewStack()
-	current := root
-	for current != nil || stack.Len() != 0 {
-		for current != nil {
-			stack.Push(current)
-			current = current.Left
-		}
-		current = stack.Pop().(*TreeNode)
-		res = append(res, current.Val)
-		current = current.Right
-	}
-	return res
-
-}
 func inorderTraversal(root *TreeNode) []int {
 	res := make([]int, 0)
 	if root == nil {
@@ -66,6 +24,34 @@ func inorderTraversal(root *TreeNode) []int {
 		res = append(res, right...)
 	}
 	return res
+}
+
+//左中右
+func inorderTraversal2(root *TreeNode) []int {
+	res := make([]int, 0)
+	if root == nil {
+		return res
+	}
+
+	var stack []*TreeNode
+
+	for {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+
+		if len(stack) == 0 {
+			break
+		}
+
+		c := stack[len(stack)-1]
+		res = append(res, c.Val)
+		root = root.Right
+	}
+
+	return res
+
 }
 func main() {
 	return
