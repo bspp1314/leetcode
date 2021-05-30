@@ -2,6 +2,71 @@ package main
 
 import "fmt"
 
+func solveNQueens2(n int) [][]string {
+	if n == 1 {
+		return [][]string{[]string{"Q"}}
+	}else if n == 2 {
+		return [][]string{}
+	}else if n == 3 {
+		return [][]string{}
+	}
+
+	board := make([][]byte, n)
+	for i := 0; i < n; i++ {
+		board[i] =  make([]byte,n)
+		for j := 0; j < len(board[i]); j++ {
+			board[i][j]  = '.'
+		}
+	}
+
+	var dfs func(row int)
+	res := make([][]string,0)
+	columns := map[int]bool{}
+	diagonals1, diagonals2 := map[int]bool{}, map[int]bool{}
+
+
+
+
+	dfs = func(row int) {
+		if row >= n {
+			res = append(res,generateBoard(board,n))
+			return
+		}
+		// 列
+		for col := 0; col < n ; col++ {
+			if columns[col] {
+				continue
+			}
+
+			diagonal1 := row - col
+			if diagonals1[diagonal1] {
+				continue
+			}
+			diagonal2 := row + col
+			if diagonals2[diagonal2] {
+				continue
+			}
+
+			columns[col] = true
+			diagonals1[diagonal1] = true
+			diagonals2[diagonal2] = true
+			board[row][col] = 'Q'
+			dfs(row+1)
+			board[row][col] = '.'
+			delete(columns,col)
+			delete(diagonals1,diagonal1)
+			delete(diagonals2,diagonal2)
+		}
+	}
+
+	dfs(0)
+
+
+	return  res
+
+
+}
+
 func solveNQueens(n int) [][]string {
 	if n == 1 {
 		return [][]string{[]string{"Q"}}
