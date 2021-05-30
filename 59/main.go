@@ -68,6 +68,73 @@ func generateMatrix(n int) [][]int {
 	return matrix
 }
 
-func main()  {
-	fmt.Println(generateMatrix(5))
+func generateMatrix3(n int) [][]int {
+	if n == 1 {
+		return [][]int{{1}}
+	}
+
+	if n == 2 {
+		return [][]int{{1,2},{4,3}}
+	}
+
+	res := make([][]int,n)
+	v := 1
+
+	for i := 0;i < n ;i++ {
+		res[i] = make([]int,n)
+	}
+
+	left := 0
+	right := n-1
+	top := 0
+	down := n -1
+
+	for left <= right && top <= down {
+		if right -left == 0 {
+			res[down][left] = v
+			break
+		}
+
+		if right-left == 1 {
+			res[top][left] = v
+			res[top][right] = v + 1
+			res[down][right] = v +2
+			res[down][left] = v + 3
+			break
+		}
+
+		for i := left;i <= right;i++ {
+			res[top][i] = v
+			v++
+		}
+
+		for i := top+1;i <= down;i++ {
+			res[i][right] = v
+			v++
+		}
+
+		for i := right-1;i > left;i-- {
+			res[down][i] = v
+			v++
+		}
+
+		for i := down;i >= top+1;i-- {
+			res[i][left] = v
+			v++
+		}
+		left++
+		right--
+		top++
+		down--
+
+	}
+
+	return res
+
+
 }
+func main()  {
+	fmt.Println(generateMatrix3(3))
+	//fmt.Println(generateMatrix(5))
+}
+
