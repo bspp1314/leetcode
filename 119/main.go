@@ -1,6 +1,9 @@
 package main
 
 import "fmt"
+//      2
+//   3   4
+//6    5    7
 
 func getRow(rowIndex int) []int {
 	if rowIndex == 0 {
