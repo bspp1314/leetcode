@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"math"
 )
@@ -10,28 +9,6 @@ type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
-}
-
-type Stack struct {
-	list *list.List
-}
-
-func NewStack() *Stack {
-	return &Stack{list.New()}
-}
-func (s *Stack) Push(v interface{}) {
-	s.list.PushBack(v)
-}
-func (s *Stack) Pop() interface{} {
-	e := s.list.Back()
-	if e != nil {
-		s.list.Remove(e)
-		return e.Value
-	}
-	return nil
-}
-func (s *Stack) Len() int {
-	return s.list.Len()
 }
 
 //给定一个二叉树，判断其是否是一个有效的二叉搜索树。
@@ -65,9 +42,12 @@ func (s *Stack) Len() int {
 //解释: 输入为: [5,1,4,null,null,3,6]。
 //     根节点的值为 5 ，但是其右子节点值为 4 。
 func isValidBST(root *TreeNode) bool {
+
 	return isValidBSTHelp(root, math.MinInt64 , math.MaxInt64)
 }
 
+// 如果该二叉树的左子树不为空，则左子树上所有节点的值均小于它的根节点的值；
+//若它的右子树不空，则右子树上所有节点的值均大于它的根节点的值；它的左右子树也为二叉搜索树。
 func isValidBSTHelp(root *TreeNode, min, max int)bool{
 	if root == nil{
 		return true
@@ -78,6 +58,7 @@ func isValidBSTHelp(root *TreeNode, min, max int)bool{
 
 	return isValidBSTHelp(root.Left, min, root.Val) && isValidBSTHelp(root.Right, root.Val, max)
 }
+
 func main() {
 	tree := &TreeNode{
 		Val:   10,
