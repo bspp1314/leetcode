@@ -14,12 +14,12 @@ func zigzagLevelOrderHelp(root *TreeNode, level int, res *[][]int) {
 	}
 
 	if len(*res) < level {
-			*res = append(*res, []int{root.Val})
+		*res = append(*res, []int{root.Val})
 	} else {
-		if level % 2 == 1 {
+		if level%2 == 1 {
 			(*res)[level-1] = append((*res)[level-1], root.Val)
-		}else{
-			(*res)[level-1] = append([]int{root.Val},(*res)[level-1]...)
+		} else {
+			(*res)[level-1] = append([]int{root.Val}, (*res)[level-1]...)
 		}
 	}
 
@@ -33,7 +33,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 	return res
 }
 
-func zigzagLevelOrder2(root *TreeNode)[][]int  {
+func zigzagLevelOrder2(root *TreeNode) [][]int {
 	var res [][]int
 	if root == nil {
 		return res
@@ -41,21 +41,21 @@ func zigzagLevelOrder2(root *TreeNode)[][]int  {
 	currentLevel := []*TreeNode{root}
 	level := 0
 	for {
-		res = append(res,[]int{})
+		res = append(res, []int{})
 		var nextLevel []*TreeNode
-		for i:=0;i<len(currentLevel);i++ {
+		for i := 0; i < len(currentLevel); i++ {
 			node := currentLevel[i]
-			if level % 2 == 0 {
-				res[level] = append(res[level],node.Val)
-			}else{
-				res[level] = append([]int{node.Val},res[level]...)
+			if level%2 == 0 {
+				res[level] = append(res[level], node.Val)
+			} else {
+				res[level] = append([]int{node.Val}, res[level]...)
 			}
 			if node.Left != nil {
-				nextLevel = append(nextLevel,node.Left)
+				nextLevel = append(nextLevel, node.Left)
 			}
 
 			if node.Right != nil {
-				nextLevel = append(nextLevel,node.Right)
+				nextLevel = append(nextLevel, node.Right)
 			}
 		}
 
@@ -68,7 +68,54 @@ func zigzagLevelOrder2(root *TreeNode)[][]int  {
 
 	return res
 }
+func zigzagLevelOrder3(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
 
+	nowLevel := []*TreeNode{root}
+	res := make([][]int, 0)
+	level := 0
+
+	for {
+		var nextLevel []*TreeNode
+		nowVal := make([]int, 0)
+
+		for i := 0; i < len(nowLevel); i++ {
+			nowVal = append(nowVal, nowLevel[i].Val)
+			if nowLevel[i].Left != nil {
+				nextLevel = append(nextLevel, nowLevel[i].Left)
+			}
+
+			if nowLevel[i].Right != nil {
+				nextLevel = append(nextLevel, nowLevel[i].Right)
+			}
+		}
+
+		if level & 1 == 1 {
+			left := 0
+			right := len(nowVal) -1
+			for left <= right {
+				nowVal[left],nowVal[right] = nowVal[right],nowVal[left]
+				left++
+				right--
+			}
+		}
+
+		level++
+
+		res = append(res, nowVal)
+
+		if len(nextLevel) == 0 {
+			break
+		} else {
+			nowLevel = nextLevel
+		}
+
+	}
+
+	return res
+}
 
 func main() {
 	tree := &TreeNode{
