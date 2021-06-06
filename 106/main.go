@@ -34,12 +34,7 @@ func buildTree(inorder []int, postorder []int) *TreeNode {
 
 	// get left tree
 	tree.Left = buildTree(inorder[0:i],postorder[0:i])
-	
-	if i == len(postorder) -1 {
-		tree.Right = nil 
-	}else{
-		tree.Right = buildTree(inorder[i+1:],postorder[i:len(postorder)-1])
-	}
+	tree.Right = buildTree(inorder[i+1:],postorder[i:len(postorder)-1])
 
 	return tree
 
