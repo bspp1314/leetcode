@@ -15,95 +15,26 @@ func flatten(root *TreeNode) {
 		return
 	}
 
-	if root.Left == nil && root.Right == nil {
-		return
-	} else {
-		left := root.Left
-		right := root.Right
-		flatten(left)
-		flatten(right)
-
-		root.Left = nil
-		if left == nil {
-			root.Right = right
-
-		} else if right == nil {
-			root.Right = left
-		} else {
-			root.Right = left
-			last := left
-			for {
-				if last.Right == nil {
-					break
-				} else {
-					last = last.Right
-				}
-			}
-			last.Right = right
-		}
-	}
-
-}
-func flatten2(root *TreeNode) {
-	if root == nil {
-		return
-	}
-
-	if root.Left == nil && root.Right == nil {
-		return
-	} else {
-		flatten(root.Left)
-		flatten(root.Right)
-		if root.Left != nil {
-			right := root.Right
-			root.Right = root.Left
-			root.Left = nil
-
-			last := root.Right
-			for last.Right != nil {
-				last = last.Right
-			}
-			last.Right = right
-		}
-	}
-}
-
-func flatten3(root *TreeNode)  {
-	if root == nil {
-		return
-	}
-
-	if root.Left == nil && root.Right == nil {
-		return
-	}
-
 	if root.Left == nil {
 		flatten(root.Right)
 		return
 	}
 
-	if root.Right == nil {
-		root.Right = root.Left
-		root.Left = nil
-		flatten(root.Right)
-		return
-	}
-
 	flatten(root.Left)
-	flatten(root.Right)
 
-	leftR := root.Left
+	k := root.Left
 
-	for leftR.Right != nil {
-		leftR = leftR.Right
+	for k.Right != nil {
+		k = k.Right
 	}
 
+	flatten(root.Right)
 	right := root.Right
-	leftR.Right = right
+
 	root.Right = root.Left
 	root.Left = nil
+	k.Right = right
 
-	return
 }
 
 func PrintValue(root *TreeNode) {
@@ -159,7 +90,6 @@ func main() {
 		},
 	}
 	PrintValue(root)
-	fmt.Printf("||||||||||||||||||||||||||||||||||||||||||\n")
 	flatten(root)
 	PrintValue(root)
 }
