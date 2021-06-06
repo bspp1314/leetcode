@@ -12,13 +12,13 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 
 
-	row := len(matrix)
-	col := len(matrix[0])
+	col := len(matrix)
+	row := len(matrix[0])
 
-	i := row -1
+	i := col -1
 	j := 0
 
-	for i >= 0 && j < col {
+	for i >= 0 && j < row {
 		if matrix[i][j] > target {
 			i--
 		}else if matrix[i][j] < target{
