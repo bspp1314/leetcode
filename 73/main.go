@@ -14,6 +14,8 @@ func setZeroes(matrix [][]int) {
 	//记录各列中是否存在0
 	colZero := false
 
+	//用第一行和第一列来标识某行某列是否应该被设计为0
+
 	for i := 0; i < m; i++ {
 		if matrix[i][0] == 0 {
 			colZero = true
@@ -31,6 +33,7 @@ func setZeroes(matrix [][]int) {
 			if matrix[i][j] == 0 {
 				matrix[i][0] = 0
 				matrix[0][j] = 0
+				PrintMa(matrix)
 			}
 		}
 	}
@@ -105,14 +108,16 @@ func PrintMa(a [][]int) {
 
 func Print(a [][]int, f func(b [][]int)) {
 	f(a)
-	//PrintMa(a)
+	PrintMa(a)
 
 }
 
 func main() {
 	Print([][]int{
-		{1, 0, 1},
-		{1, 1, 1},
-		{1, 1, 1},
+		{1, 1, 1,1,1},
+		{1, 1, 1,1,1},
+		{1, 1, 0,1,1},
+		{1, 1, 1,1,1},
+		{1, 1, 1,1,1},
 	}, setZeroes)
 }
