@@ -19,4 +19,6 @@ func removeDuplicates(nums []int) int {
 			j += 1
 		}
 	}
+
+	return 0
 }
