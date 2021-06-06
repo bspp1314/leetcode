@@ -7,81 +7,49 @@ type Node struct {
 	Next  *Node
 }
 
-func connect2(root *Node) *Node {
+func connect(root *Node) *Node {
 	if root == nil {
 		return nil
 	}
 
-	if root.Left != nil && root.Right != nil {
-		root.Left.Next = root.Right
-	}
-
-	if root.Left != nil && root.Right == nil {
-		root.Left.Next = getNext(root.Next)
-	}
-
-	if root.Right != nil {
-		root.Right.Next = getNext(root.Next)
-	}
-
-	connect(root.Left)
-	connect(root.Right)
-
-	return root
-}
-
-func connect(root *Node) *Node {
-	if root == nil {
+	if root.Left == nil && root.Right == nil {
 		return root
 	}
 
-	if root.Left != nil && root.Right != nil {
-		root.Left.Next = root.Right
+	nowLevel := root
+
+	for {
+		var nextLevelHead *Node
+		var nextLevelTail *Node
+
+		for nowLevel != nil {
+			if nowLevel.Left != nil {
+				if nextLevelHead == nil {
+					nextLevelHead =nowLevel.Left
+					nextLevelTail = nowLevel.Left
+				}else{
+					nextLevelTail.Next = nowLevel.Left
+					nextLevelTail = nextLevelTail.Next
+				}
+			}
+
+			if nowLevel.Right != nil {
+				if nextLevelHead == nil {
+					nextLevelHead =nowLevel.Right
+					nextLevelTail = nowLevel.Right
+				}else{
+					nextLevelTail.Next = nowLevel.Right
+					nextLevelTail = nextLevelTail.Next
+				}
+			}
+		}
+
+		if nextLevelHead == nil {
+			break
+		}
+
+		nowLevel = nextLevelHead
 	}
 
-	if root.Left != nil && root.Right == nil {
-		root.Left.Next = getNext(root.Next)
-	}
-
-	if root.Right != nil {
-		root.Right.Next = getNext(root.Next)
-	}
-
-	connect(root.Right)
-	connect(root.Left)
 	return root
 }
-
-func getNext(root *Node) *Node {
-	if root == nil {
-		return nil
-	}
-	if root.Left != nil {
-		return root.Left
-	}
-	if root.Right != nil {
-		return root.Right
-	}
-
-	return getNext(root.Next)
-}
-
-func getNext2(root *Node) *Node {
-	if root == nil {
-		return nil
-	}
-
-	if root.Left != nil {
-		return root.Left
-	}
-
-	if root.Right != nil {
-		return root.Right
-	}
-
-	return getNext2(root.Next)
-}
-
-
-
-
