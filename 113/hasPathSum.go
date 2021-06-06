@@ -1,108 +1,42 @@
 package main
 
-import (
-	"fmt"
-	"log"
-)
-
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
 }
 
-//给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。
-
-//说明: 叶子节点是指没有子节点的节点。
-
-//func hasPathSum(root *TreeNode, sum int) bool {
-//	if root == nil {
-//		return false
-//	}
-//	if root.Left == nil && root.Right == nil && root.Val == sum {
-//		return true
-//	} else {
-//		return hasPathSum(root.Left, sum-root.Val) || hasPathSum(root.Right, sum-root.Val)
-//	}
-//}
-func pathSum(root *TreeNode, sum int) [][]int {
-	pathList := make([]int, 0)
-	sums := make([][]int, 0)
-	pathSums(root, sum, pathList, &sums)
-	return sums
-}
-func pathSums(root *TreeNode, sum int, pathList []int, sums *[][]int) {
+func pathSum(root *TreeNode, targetSum int) [][]int {
 	if root == nil {
-		return
+		return [][]int{}
 	}
-	if root.Left == nil && root.Right == nil && root.Val == sum {
-		log.Println(sum)
-		pathList = append(pathList, root.Val)
-		log.Println(pathList)
-		*sums = append(*sums, pathList)
-	} else {
-		pathList = append(pathList, root.Val)
-		pathList2 := make([]int, len(pathList))
-		copy(pathList2, pathList)
-		pathSums(root.Left, sum-root.Val, pathList, sums)
-		pathSums(root.Right, sum-root.Val, pathList2, sums)
-	}
-	return
-}
+	res := make([][]int,0)
+	var dfs func(node *TreeNode,sub []int,sum int)
 
-func PrintValue(root *TreeNode) {
-	if root == nil {
-		return
+	dfs = func(node *TreeNode,sub []int, sum int) {
+		if node == nil {
+			return
+		}
+
+
+		if node.Right == nil && node.Left == nil {
+			if sum == node.Val {
+				tem := make([]int,len(sub))
+				copy(tem,sub)
+				res = append(res,append(tem,node.Val))
+			}
+			return
+		}
+		newSub := append(sub,node.Val)
+		dfs(node.Left,newSub,sum-node.Val)
+		dfs(node.Right,newSub,sum-node.Val)
 	}
 
-	fmt.Println(root.Val)
-	PrintValue(root.Left)
-	PrintValue(root.Right)
+	dfs(root,[]int{},targetSum)
+
+	return res
+
 }
 
 func main() {
-	root := &TreeNode{
-		Val: 5,
-		Left: &TreeNode{
-			Val: 4,
-			Left: &TreeNode{
-				Val: 11,
-				Left: &TreeNode{
-					Val:   7,
-					Left:  nil,
-					Right: nil,
-				},
-				Right: &TreeNode{
-					Val:   2,
-					Left:  nil,
-					Right: nil,
-				},
-			},
-			Right: nil,
-		},
-		Right: &TreeNode{
-			Val: 8,
-			Left: &TreeNode{
-				Val:   13,
-				Left:  nil,
-				Right: nil,
-			},
-			Right: &TreeNode{
-				Val: 4,
-				Left: &TreeNode{
-					Val:   5,
-					Left:  nil,
-					Right: nil,
-				},
-				Right: &TreeNode{
-					Val:   1,
-					Left:  nil,
-					Right: nil,
-				},
-			},
-		},
-	}
-
-	val := pathSum(root, 22)
-	fmt.Println(val)
 }
