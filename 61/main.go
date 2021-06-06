@@ -5,9 +5,9 @@ import (
 )
 
 type ListNode struct {
-     Val int
-     Next *ListNode
- }
+	Val  int
+	Next *ListNode
+}
 
 func ArrayToListNode(arr []int) *ListNode {
 	if len(arr) == 0 {
@@ -21,7 +21,7 @@ func ArrayToListNode(arr []int) *ListNode {
 
 	tail := head
 
-	for i:=1;i<len(arr);i++ {
+	for i := 1; i < len(arr); i++ {
 		new := &ListNode{
 			Val:  arr[i],
 			Next: nil,
@@ -35,79 +35,50 @@ func ArrayToListNode(arr []int) *ListNode {
 
 }
 
-func PrintList(list *ListNode)  {
-	for list != nil   {
-		fmt.Printf(" %d ",list.Val)
+func PrintList(list *ListNode) {
+	for list != nil {
+		fmt.Printf(" %d ", list.Val)
 		list = list.Next
 	}
 	fmt.Println()
 }
 
 func rotateRight(head *ListNode, k int) *ListNode {
-	if head == nil || k == 0 {
+	if head == nil || head.Next == nil {
 		return head
 	}
 
-	l := 0
+	if k == 0 {
+		return head
+	}
+
+	listMap := make(map[int]*ListNode)
+
 	tail := head
-	address := make(map[int]*ListNode)
+	index := 0
+
 	for tail != nil {
-		address[l] = tail
+		listMap[index] = tail
 		tail = tail.Next
-		l++
+		index++
 	}
 
-	k = k % l
+	k = k % index
+
 	if k == 0 {
-		return  head
-	}
-	newHead := address[l-k]
-	newTail := address[l-k-1]
-	newTail.Next = nil
-	address[l-1].Next = head
-
-	return newHead
-}
-
-func rotateRight2(head *ListNode, k int) *ListNode {
-	if head == nil || k == 0 {
 		return head
 	}
 
-	l := 0
-	tail := head
-	for tail.Next != nil  {
-		tail = tail.Next
-		l++
-	}
+	listMap[index-1].Next = head
+	listMap[index-k-1].Next = nil
 
-	fmt.Println(tail)
-	k = k % (l+1)
-	if k == 0 {
-		return  head
-	}
-
-	tail.Next = head
-
-	newTail := head
-	for i:= 0;i<l-k;i++ {
-		newTail = newTail.Next
-	}
-
-	newHead := newTail.Next
-	newTail.Next = nil
-
-	return newHead
+	return listMap[index-k]
 }
 
-func main()  {
-	arr :=[]int{1,2,3,4,5,6}
+func main() {
+	arr := []int{1, 2, 3, 4, 5}
 	list := ArrayToListNode(arr)
 	PrintList(list)
-	newList := rotateRight(list,5)
+	newList := rotateRight(list, 2)
 	PrintList(newList)
-	list2 := ArrayToListNode(arr)
-	newList2 := rotateRight2(list2,5)
-	PrintList(newList2)
 }
-
