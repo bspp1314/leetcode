@@ -5,33 +5,41 @@ type Node struct {
 	Neighbors []*Node
 }
 
-var Visit = map[*Node]*Node{}
-
 func cloneGraph(node *Node) *Node {
 	if node == nil {
 		return nil
 	}
 
-	if len(node.Neighbors) == 0 {
-		return &Node{Val: node.Val}
+
+	visit := make(map[*Node]*Node)
+
+	var dfs  func(root *Node) *Node
+
+	dfs = func(root *Node) *Node {
+		if root == nil {
+			return nil
+		}
+
+		copyNode,ok := visit[root]
+		if ok {
+			return copyNode
+		}
+
+		copyNode = &Node{
+			Val:       root.Val,
+			Neighbors: make([]*Node,0),
+		}
+		
+		visit[root] = copyNode
+
+		for i := 0; i < len(root.Neighbors); i++ {
+			copyNode.Neighbors = append(copyNode.Neighbors,dfs(root.Neighbors[i]))
+		}
+
+		return copyNode
 	}
 
-	if _, ok := Visit[node]; ok {
-		return Visit[node]
-	}
-
-	copyNode := &Node{
-		Val:       node.Val,
-		Neighbors: make([]*Node, 0),
-	}
-	// 哈希表存储
-	Visit[node] = copyNode
-
-	for i := 0; i < len(node.Neighbors); i++ {
-		copyNode.Neighbors = append(copyNode.Neighbors, cloneGraph(node.Neighbors[i]))
-	}
-
-	return copyNode
+	return dfs(node)
 }
 
 func cloneGraph2(node *Node) *Node {
@@ -43,7 +51,7 @@ func cloneGraph2(node *Node) *Node {
 		return &Node{Val: node.Val}
 	}
 
-	var visited = map[*Node]*Node{}
+	visited := make(map[*Node]*Node)
 
 	// 将题目给定的节点添加到队列
 	levelNodes := []*Node{node}
@@ -71,3 +79,5 @@ func cloneGraph2(node *Node) *Node {
 	return visited[node]
 
 }
+
+
