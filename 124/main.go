@@ -11,11 +11,9 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-
-func longestUnivaluePath(root *TreeNode) int {
-	maxSum := 0
-
-	var subMaxPahSum func(*TreeNode) int
+func longestUnivaluePath2(root *TreeNode) int  {
+	maxSum  := 0
+	var dfs func(*TreeNode) int
 	max := func(a, b int) int {
 		if a > b {
 			return a
@@ -24,30 +22,25 @@ func longestUnivaluePath(root *TreeNode) int {
 		return b
 	}
 
-	subMaxPahSum = func(node *TreeNode) int {
+	dfs = func(node *TreeNode) int {
 		if node == nil  {
 			return 0
 		}
-		left := subMaxPahSum(node.Left)
-		right := subMaxPahSum(node.Right)
 
-		if node.Left != nil && node.Left.Val == node.Val {
-			left++
-		}else{
-			left = 0
-		}
-		if node.Right != nil && node.Right.Val == node.Val {
-			right++
-		}else{
-			right = 0
-		}
+		leftVal := max(dfs(node.Left), 0)
+		rightVal := max(dfs(node.Right), 0)
 
-		maxSum = max(maxSum,left+right)
+		newMaxSum := node.Val + leftVal + rightVal
+		maxSum = max(newMaxSum, maxSum)
 
-		return max(left,right)
+
+		return node.Val + max(leftVal, rightVal)
 	}
 
-	subMaxPahSum(root)
+
+	dfs(root)
+
+
 	return maxSum
 }
 
