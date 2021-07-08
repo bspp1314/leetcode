@@ -1,16 +1,15 @@
 package main
 
 
-  type TreeNode struct {
+type TreeNode struct {
       Val int
       Left *TreeNode
       Right *TreeNode
-  }
+}
 
 type BSTIterator struct {
-	Stack []*TreeNode
-	Current *TreeNode
-
+    Root  *TreeNode
+    Stack []*TreeNode
 }
 
 
@@ -18,35 +17,34 @@ func Constructor(root *TreeNode) BSTIterator {
     if root == nil {
         return BSTIterator{}
     }
-    res := BSTIterator{
-        Stack:   nil,
-        Current: nil,
-    }
-    res.Stack = []*TreeNode{root}
-    res.Current = root.Left
 
-    return res
+    return BSTIterator{
+        Root:  root,
+        Stack: make([]*TreeNode,0),
+    }
 }
 
 
 func (this *BSTIterator) Next() int {
-    for this.Current != nil {
-        this.Stack = append(this.Stack,this.Current)
-        this.Current = this.Current.Left
+    for this.Root != nil {
+        this.Stack = append(this.Stack,this.Root)
+        this.Root = this.Root.Left
     }
 
     if len(this.Stack) > 0 {
-        res := this.Stack[len(this.Stack)-1].Val
-        this.Current = this.Stack[len(this.Stack)-1].Right
+        n :=this.Stack[len(this.Stack)-1]
         this.Stack = this.Stack[:len(this.Stack)-1]
-        return res
+        this.Root = n.Right
+
+        return n.Val
+
     }
 
-
-    return  -1
+    return -1
 }
 
 
 func (this *BSTIterator) HasNext() bool {
-    return len(this.Stack) > 0 && this.Current != nil
+    return this.Root != nil || len(this.Stack) != 0
 }
+
