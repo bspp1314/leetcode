@@ -1,42 +1,75 @@
 package main
 
-import "fmt"
-
 type ListNode struct {
 	Next *ListNode
 	Val int
 }
 
-func PrintList(l *ListNode)  {
-	for l != nil {
-		fmt.Printf("%d ",l.Val)
-		l = l.Next
+// 1 2 3 4 5 6 7
+
+// slow 1
+// fast 1
+
+// slow 2
+// fast 3 4
+
+// slow 3
+// fast 5 6
+
+
+// 1 2 3 4 5 6 7 8
+
+
+// slow 1
+// fast 1
+
+// slow 2
+// fast 3 4
+
+// slow 3
+// fast 5 6
+
+// slow 4
+// fast 7 8
+
+
+func middleNode(head *ListNode) *ListNode  {
+	slow,fast := head,head
+
+	for fast.Next !=nil && fast.Next.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
 	}
 
-	fmt.Println()
+	return slow
 }
 
-func CreateList(nodes []int) *ListNode {
-	if len(nodes) == 0 {
-		return nil
+func mergerList(l1,l2 *ListNode) {
+	var l1Temp  *ListNode
+	var l2Temp *ListNode
+
+	for l1 != nil && l2 != nil {
+		// 1->2->3
+		// 6->5-4
+
+
+		l1Temp = l1.Next
+		l2Temp = l2.Next
+
+		// 1->6->5-4
+		// 2->3
+		// l1 = 5->4
+		l1.Next = l2
+		l1 = l1Temp
+		// 1->6->2-3
+		// l2 = 5->4
+		// l1 = 1->6->2->3
+		l2.Next = l1
+		l2 = l2Temp
 	}
-
-	head := &ListNode{Val: nodes[0]}
-	cur := head
-
-	for i := 1; i < len(nodes); i++ {
-		cur.Next = &ListNode{
-			Next: nil,
-			Val:  nodes[i],
-		}
-
-		cur = cur.Next
-	}
-
-	return head
 }
 
-func reverseList(head *ListNode) *ListNode {
+func reverseList(head *ListNode) *ListNode  {
 	var newHead *ListNode
 
 	for head != nil {
@@ -45,82 +78,21 @@ func reverseList(head *ListNode) *ListNode {
 		t.Next = newHead
 		newHead = t
 	}
+
 	return newHead
-
-}
-
-func middleNode(head *ListNode) (*ListNode,*ListNode) {
-	slow:= head
-	fast := head
-	var slow2 *ListNode
-
-
-	for fast != nil {
-		fast = fast.Next
-		if fast == nil {
-			break
-		}
-
-		fast = fast.Next
-		slow2 = slow
-		slow  = slow.Next
-
-	}
-
-	return slow,slow2
 }
 
 func reorderList(head *ListNode)  {
-	if head == nil  || head.Next == nil || head.Next.Next == nil {
+	if head == nil {
 		return
 	}
-
-	s1,s2 := middleNode(head)
-	if s2 != nil {
-		s2.Next = nil
-	}
-
-	s1 = reverseList(s1)
-	PrintList(head)
-	PrintList(s1)
-
-	var newHead *ListNode
-	var cur *ListNode
-
-	for head != nil {
-		if newHead == nil {
-			newHead = head
-			cur = head
-			head = head.Next
-		}else{
-			t := head
-			head = head.Next
-			cur.Next = t
-			cur = t
-			cur.Next = nil
-		}
-
-		t := s1
-		s1 = s1.Next
-		cur.Next = t
-		cur = t
-		cur.Next = nil
-	}
-
-	if s1 != nil {
-		t := s1
-		s1 = s1.Next
-		cur.Next = t
-		cur = t
-		cur.Next = nil
-	}
-
-	PrintList(newHead)
-	head = newHead
-
+	mid := middleNode(head)
+	l1 := head
+	l2 := mid.Next
+	mid.Next = nil
+	l2 = reverseList(l2)
+	mergerList(l1,l2)
 }
 
 func main() {
-	l := CreateList([]int{1,2,3,4,5,6,7})
-	reorderList(l)
 }
