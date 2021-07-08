@@ -5,6 +5,7 @@ import (
 	"strconv"
 )
 
+
 var tokenFuncs = map[string]func(a,b int )int {
 	"*": func(a, b int) int {
 		return a*b
@@ -21,8 +22,9 @@ var tokenFuncs = map[string]func(a,b int )int {
 		return  a/b
 	},
 }
+
 func evalRPN(tokens []string) int {
-	if len(tokens) <= 2 {
+	if len(tokens) == 0 {
 		return 0
 	}
 
@@ -33,13 +35,11 @@ func evalRPN(tokens []string) int {
 			v1 := stack[len(stack)-1]
 			v2 := stack[len(stack)-2]
 			stack  = stack[0:len(stack)-2]
-			stack = append(stack,tokenFun(v1,v2))
+			stack = append(stack,tokenFun(v2,v1))
 		} else{
 			v,_ := strconv.Atoi(tokens[i])
 			stack = append(stack,v)
 		}
-
-		fmt.Println(stack)
 	}
 
 	return stack[0]
