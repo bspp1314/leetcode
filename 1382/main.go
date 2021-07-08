@@ -10,7 +10,6 @@ type TreeNode struct {
 	Val int
 }
 
-
 func balanceBST(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
