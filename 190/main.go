@@ -14,6 +14,8 @@ func reverseBits2(num uint32) uint32 {
 	return res
 }
 
+//  1111 1111 0000 0000 | 1111 1111 0000 0000
+
 
 func reverseBits(num uint32) uint32 {
 	num = (num >> 16) | (num << 16 )
