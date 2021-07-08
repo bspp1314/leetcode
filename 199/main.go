@@ -8,14 +8,14 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-
+// 广度优先遍历
 func rightSideView(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
 	}
 
 	currentLevel := []*TreeNode{root}
-	res := []int{}
+	var res []int
 
 	for  {
 		nextLevel := make([]*TreeNode,0)
@@ -39,31 +39,9 @@ func rightSideView(root *TreeNode) []int {
 	return res
 }
 
+
+// 深度优先遍历
 func rightSideView2(root *TreeNode) []int {
-	if root == nil {
-		return []int{}
-	}
-
-	rightNext := rightSideView2(root.Right)
-	leftNext := rightSideView2(root.Left)
-
-	res := make([]int,len(rightNext)+1)
-	res[0] = root.Val
-	for i:= 0;i<len(rightNext);i++ {
-		res[i+1] = rightNext[i]
-	}
-
-
-	if len(rightNext) < len(leftNext) {
-		for i:= len(rightNext);i < len(leftNext);i++ {
-			res = append(res,leftNext[i])
-		}
-	}
-
-	return res
-}
-
-func rightSideView3(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
 	}
@@ -115,6 +93,5 @@ func main() {
 
 	fmt.Println(rightSideView(root))
 	fmt.Println(rightSideView2(root))
-	fmt.Println(rightSideView3(root))
 
 }
