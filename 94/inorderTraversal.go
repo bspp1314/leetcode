@@ -47,12 +47,16 @@ func inorderTraversal2(root *TreeNode) []int {
 
 		c := stack[len(stack)-1]
 		res = append(res, c.Val)
-		root = root.Right
+		stack = stack[:len(stack)-1]
+		root = c.Right
 	}
 
 	return res
-
 }
+
+// 中左右
+// 左中右
+// 左右中
 func main() {
 	return
 }

@@ -1,8 +1,0 @@
-### Send POST request with json body
-POST http://10.249.172.203:9080/center/front/v1/user/user/info
-Content-Type: application/json
-X-Access-Token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTA0MjA1NDQsInBvbGFyaXNfc2lnbiI6IjFlMWNiMzU3ODVjZTVjNTU1YzcwNzRhYTA3NGFhMWM4IiwidWlkIjoyMDY2OSwidXNlcm5hbWUiOiJsaW55dWFucGVuZyJ9.Mgppqe8ZVcpQQMsyAvpA9ksqD_AnXwENbvhjNUMYsZA
-
-{}
-
-###
