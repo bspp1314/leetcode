@@ -1,6 +1,5 @@
 package main
 
-
 //前 中左右
 //中 左中右
 //后 左右中
@@ -18,31 +17,34 @@ func postorderTraversal(root *TreeNode) []int {
 
 	var res []int
 
-	stack := make([]*TreeNode,0)
-	//用来记录左节点是否遍历过
+	stack := make([]*TreeNode, 0)
+	//用来记录上一个遍历节点的位置
 	var pre *TreeNode
 
-	for root !=nil || len(stack) != 0 {
+	for root != nil || len(stack) != 0 {
 		for root != nil {
-			stack = append(stack,root)
+			stack = append(stack, root)
 			root = root.Left
 		}
 
-		n := stack[len(stack)-1]
+		root = stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
 
-		if n.Right == nil || n.Right == pre {
-			pre = n
+		// 判断Right 是否被遍历过
+		if root.Right == nil || root.Right == pre {
+			res = append(res, root.Val)
+			pre = root
 			root = nil
-			res = append(res,n.Val)
-		}else{
-			stack = append(stack,n)
-			root = n.Right
+		} else {
+			// root.Right 没有被遍历过
+			stack = append(stack, root)
+			root = root.Right
 		}
+
 	}
 
 	return res
 }
-func main()  {
+func main() {
 
 }

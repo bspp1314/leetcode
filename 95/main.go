@@ -7,38 +7,38 @@ type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
 }
+
 func generateTrees(n int) []*TreeNode {
 	if n == 0 {
 		return nil
 	}
 	nMap := make(map[[2]int][]*TreeNode)
-	return helper(1, n,nMap)
+	return helper(1, n, nMap)
 }
 
-func helper(start, end int,nMap map[[2]int][]*TreeNode) []*TreeNode {
+func helper(start, end int, nMap map[[2]int][]*TreeNode) []*TreeNode {
 	if start > end {
 		trees := []*TreeNode{nil}
-		nMap[[2]int{start,end}] = trees
+		nMap[[2]int{start, end}] = trees
 		return trees
 	}
-	allTrees := []*TreeNode{}
+	var allTrees []*TreeNode
 	// 枚举可行根节点
 	for i := start; i <= end; i++ {
 		// 获得所有可行的左子树集合
-		leftTrees  := []*TreeNode{}
-		rightTrees := []*TreeNode{}
+		var leftTrees []*TreeNode
+		var rightTrees []*TreeNode
 
-
-		if v,ok := nMap[[2]int{start,i-1}];ok {
+		if v, ok := nMap[[2]int{start, i - 1}]; ok {
 			leftTrees = v
-		}else{
-			leftTrees = helper(start, i - 1,nMap)
+		} else {
+			leftTrees = helper(start, i-1, nMap)
 		}
 
-		if v,ok := nMap[[2]int{i+1,end}];ok {
+		if v, ok := nMap[[2]int{i + 1, end}]; ok {
 			rightTrees = v
-		}else{
-			rightTrees = helper(i+1,end,nMap)
+		} else {
+			rightTrees = helper(i+1, end, nMap)
 		}
 
 		// 从左子树集合中选出一棵左子树，从右子树集合中选出一棵右子树，拼接到根节点上
@@ -51,11 +51,10 @@ func helper(start, end int,nMap map[[2]int][]*TreeNode) []*TreeNode {
 			}
 		}
 	}
-	nMap[[2]int{start,end}] =allTrees
+	nMap[[2]int{start, end}] = allTrees
 	return allTrees
 }
-//   1
-//
+
 func main() {
 	nMap := make(map[[2]int]int)
 	a := [2]int{}
